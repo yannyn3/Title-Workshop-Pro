@@ -1,0 +1,3957 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com https://one-api.qyy3.com https://api.moonshot.cn https://api.deepseek.com https://generativelanguage.googleapis.com https://*.googleapis.com https://one-api.aiporters.com; connect-src 'self' https://one-api.qyy3.com https://api.moonshot.cn https://api.deepseek.com https://generativelanguage.googleapis.com https://*.googleapis.com https://one-api.aiporters.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>标题工坊 Pro</title>
+  <!-- 使用特定版本的Tailwind以避免生产环境警告 -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"PingFang SC"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            display: ['"SF Pro Display"', '"PingFang SC"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef9ff',
+              100: '#d9f2ff',
+              200: '#b9e9ff',
+              300: '#86daff',
+              400: '#4bc5ff',
+              500: '#24a8ff',
+              600: '#0987ff',
+              700: '#006be0',
+              800: '#0058b8',
+              900: '#084a91',
+            },
+            accent: {
+              50: '#fdf2f8',
+              100: '#fce7f3',
+              200: '#fbcfe8',
+              300: '#f9a8d4',
+              400: '#f472b6',
+              500: '#ec4899',
+              600: '#db2777',
+              700: '#be185d',
+              800: '#9d174d',
+              900: '#831843',
+            }
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shimmer': 'shimmer 2s linear infinite forwards',
+            'gradient': 'gradient 8s ease infinite',
+            'slide-up': 'slide-up 0.5s ease-out',
+            'slide-down': 'slide-down 0.5s ease-out',
+            'fade-in': 'fade-in 0.3s ease-out',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-468px 0' },
+              '100%': { backgroundPosition: '468px 0' },
+            },
+            gradient: {
+              '0%': { backgroundPosition: '0% 50%' },
+              '50%': { backgroundPosition: '100% 50%' },
+              '100%': { backgroundPosition: '0% 50%' },
+            },
+            'slide-up': {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            'slide-down': {
+              '0%': { transform: 'translateY(-20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            'fade-in': {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+          }
+        },
+      },
+    };
+
+    // 深色/浅色模式设置
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.documentElement.classList.add('dark');
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      if (event.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    });
+  </script>
+  <style>
+    /* 高级视觉效果 */
+    .glass {
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.75);
+    }
+
+    .light .glass {
+      background: rgba(255, 255, 255, 0.75);
+    }
+
+    .animated-bg {
+      background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+
+    .dark .animated-bg {
+      background: linear-gradient(-45deg, #5a0c27, #7e1671, #0c4a6e, #065f46);
+      background-size: 400% 400%;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animate-shimmer {
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.1) 8%, rgba(255, 255, 255, 0.2) 18%, rgba(255, 255, 255, 0.1) 33%);
+      background-size: 800px 104px;
+      animation: shimmer 1.5s linear infinite forwards;
+    }
+
+    .dark .animate-shimmer {
+      background: linear-gradient(to right, rgba(30, 41, 59, 0.1) 8%, rgba(30, 41, 59, 0.2) 18%, rgba(30, 41, 59, 0.1) 33%);
+    }
+
+    /* 流体圆形装饰背景 */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(40px);
+      opacity: 0.5;
+      mix-blend-mode: plus-lighter;
+      z-index: -1;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .dark .blob {
+      mix-blend-mode: plus-darker;
+      opacity: 0.3;
+    }
+
+    /* 滚动条样式 */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+      border-radius: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .dark ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* 微交互效果 */
+    .btn-hover-effect {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .btn-hover-effect:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+
+    .btn-hover-effect:hover:after {
+      animation: ripple 0.6s ease-out;
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+
+    /* 标签切换动画 */
+    .tab-underline {
+      position: relative;
+    }
+
+    .tab-underline:after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: currentColor;
+      transform-origin: bottom right;
+      transition: transform 0.3s ease-out;
+    }
+
+    .tab-underline.active:after,
+    .tab-underline:hover:after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    /* 3D卡片效果 */
+    .card-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card-3d:hover {
+      transform: translateY(-5px) scale(1.01);
+    }
+
+    /* 加载动画 */
+    @keyframes dot-flashing {
+      0% { opacity: 0.2; }
+      50% { opacity: 1; }
+      100% { opacity: 0.2; }
+    }
+
+    .dot-flashing {
+      position: relative;
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: currentColor;
+      animation: dot-flashing 1s infinite linear alternate;
+    }
+
+    .dot-flashing:before,
+    .dot-flashing:after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: currentColor;
+      animation: dot-flashing 1s infinite alternate;
+    }
+
+    .dot-flashing:before {
+      left: -10px;
+      animation-delay: 0s;
+    }
+
+    .dot-flashing:after {
+      left: 10px;
+      animation-delay: 1s;
+    }
+
+    /* 渐变文字效果 */
+    .text-gradient {
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: textShine 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes textShine {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* 标记高亮动画 */
+    @keyframes highlight {
+      0% { background-position: -100% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .highlight-effect {
+      background: linear-gradient(90deg,
+                  rgba(255, 255, 255, 0) 0%,
+                  rgba(255, 255, 255, 0.6) 50%,
+                  rgba(255, 255, 255, 0) 100%);
+      background-size: 200% 100%;
+      animation: highlight 1.5s ease-in-out;
+    }
+
+    .dark .highlight-effect {
+      background: linear-gradient(90deg,
+                  rgba(30, 41, 59, 0) 0%,
+                  rgba(30, 41, 59, 0.6) 50%,
+                  rgba(30, 41, 59, 0) 100%);
+      background-size: 200% 100%;
+      animation: highlight 1.5s ease-in-out;
+    }
+
+    /* 轻质胶囊标签 */
+    .air-tag {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .air-tag:hover {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .dark .air-tag {
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    .dark .air-tag:hover {
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 模态框动画 */
+    .modal-overlay {
+      opacity: 0;
+      transition: opacity 0.3s ease-out;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+    }
+
+    .modal-content {
+      transform: scale(0.95);
+      opacity: 0;
+      transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    }
+
+    .modal-content.active {
+      transform: scale(1);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen bg-gray-50 dark:bg-slate-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
+  <!-- 背景装饰 -->
+  <div class="fixed inset-0 overflow-hidden">
+    <!-- 渐变背景 -->
+    <div class="fixed inset-0 animated-bg opacity-5 dark:opacity-10 -z-10"></div>
+
+    <!-- 流体形状 -->
+    <div class="blob w-96 h-96 top-0 left-0 bg-brand-400/30 dark:bg-brand-700/20" style="animation-delay: 0s;"></div>
+    <div class="blob w-80 h-80 bottom-0 right-0 bg-accent-400/30 dark:bg-accent-700/20" style="animation-delay: -2s;"></div>
+    <div class="blob w-72 h-72 top-1/2 left-1/3 bg-purple-400/30 dark:bg-purple-700/20" style="animation-delay: -5s;"></div>
+
+    <!-- 光晕效果 -->
+    <div class="fixed top-0 right-0 w-1/2 h-1/2 bg-brand-300/10 dark:bg-brand-700/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
+    <div class="fixed bottom-0 left-0 w-1/2 h-1/2 bg-accent-300/10 dark:bg-accent-700/10 rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3"></div>
+  </div>
+
+  <main class="container mx-auto px-4 py-8 relative z-10 max-w-6xl">
+    <!-- 顶部导航 -->
+    <header class="mb-8">
+      <nav class="flex justify-between items-center py-3">
+        <!-- 品牌标识 -->
+        <div class="flex items-center space-x-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-brand-500 to-accent-500 rounded-xl flex items-center justify-center shadow-lg">
+            <i class="fas fa-pen-fancy text-white text-xl"></i>
+          </div>
+          <h1 class="text-2xl font-bold font-display bg-gradient-to-r from-brand-500 to-accent-500 text-gradient">标题工坊 Pro</h1>
+        </div>
+
+        <!-- 右侧功能菜单 -->
+        <div class="flex items-center space-x-4">
+          <!-- 主题切换 -->
+          <button id="themeToggle" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:block"></i>
+          </button>
+
+          <!-- 设置按钮 -->
+          <button id="showSettingsBtn" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-cog"></i>
+          </button>
+
+          <!-- 历史记录按钮 -->
+          <button id="showHistoryBtn" class="w-10 h-10 rounded-full flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-history"></i>
+          </button>
+        </div>
+      </nav>
+
+      <!-- 应用标题 -->
+      <div class="text-center mt-8 mb-10 animate-fade-in">
+        <h2 class="text-4xl md:text-5xl font-bold tracking-tight mb-3 font-display">
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-accent-600 dark:from-brand-400 dark:to-accent-400">
+            打造引爆流量的标题
+          </span>
+        </h2>
+        <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+          基于先进AI技术，为各类内容创建引人注目、能引爆阅读量的标题
+        </p>
+      </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- 左侧设置面板 -->
+      <div class="lg:col-span-1 space-y-6">
+        <!-- 创作参数卡片 -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden card-3d">
+          <!-- 卡片标题 -->
+          <div class="px-6 py-4 bg-gradient-to-r from-brand-500/10 to-accent-500/10 dark:from-brand-500/20 dark:to-accent-500/20 border-b border-gray-100 dark:border-slate-700">
+            <h3 class="font-display font-semibold text-xl flex items-center">
+              <i class="fas fa-sliders-h mr-2 text-brand-500 dark:text-brand-400"></i>
+              创作参数
+            </h3>
+          </div>
+
+          <!-- 卡片内容 -->
+          <div class="p-6 space-y-5">
+            <!-- 提示词模板选择 -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">选择提示词模板</label>
+                <button id="viewCurrentTemplateBtn" class="text-xs text-brand-600 dark:text-brand-400 hover:underline flex items-center">
+                  <i class="fas fa-eye mr-1"></i>
+                  查看当前提示词
+                </button>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <button data-template="default" class="prompt-template-btn px-4 py-2.5 rounded-lg text-sm font-medium bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 border-2 border-brand-500/50 dark:border-brand-500/30 flex items-center justify-between">
+                  <span>通用标题优化</span>
+                  <i class="fas fa-eye text-xs view-template-btn" data-template="default"></i>
+                </button>
+                <button data-template="mimeng" class="prompt-template-btn px-4 py-2.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all flex items-center justify-between">
+                  <span>咪蒙标题方法</span>
+                  <i class="fas fa-eye text-xs view-template-btn" data-template="mimeng"></i>
+                </button>
+                <button data-template="wechat" class="prompt-template-btn px-4 py-2.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all flex items-center justify-between">
+                  <span>公众号爆款</span>
+                  <i class="fas fa-eye text-xs view-template-btn" data-template="wechat"></i>
+                </button>
+                <button data-template="custom" class="prompt-template-btn px-4 py-2.5 rounded-lg text-sm font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700 transition-all flex items-center justify-between">
+                  <span>自定义提示词</span>
+                  <i class="fas fa-edit text-xs"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- 自定义提示词 -->
+            <div id="customPromptContainer" class="space-y-2 hidden">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">自定义提示词</label>
+              <textarea id="customPrompt" rows="6" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-base focus:ring-brand-500 focus:border-brand-500 dark:focus:ring-brand-400 dark:focus:border-brand-400 transition-colors" placeholder="在这里输入自定义提示词..."></textarea>
+            </div>
+
+            <!-- 生成数量 -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">每个标题生成数量</label>
+              <div class="relative">
+                <select id="generationCount" class="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-base appearance-none focus:ring-brand-500 focus:border-brand-500 dark:focus:ring-brand-400 dark:focus:border-brand-400 transition-colors">
+                  <option value="1">1 个标题</option>
+                  <option value="3" selected="">3 个标题</option>
+                  <option value="5">5 个标题</option>
+                  <option value="10">10 个标题</option>
+                </select>
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <i class="fas fa-list-ol"></i>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+              </div>
+            </div>
+
+            <!-- 标题风格 -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">标题风格</label>
+              <div class="grid grid-cols-2 gap-2">
+                <div class="flex items-center p-2.5 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-300 dark:border-slate-600">
+                  <input id="style-professional" name="title-style" type="radio" value="professional" checked="" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400">
+                  <label for="style-professional" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">专业严谨</label>
+                </div>
+                <div class="flex items-center p-2.5 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-300 dark:border-slate-600">
+                  <input id="style-creative" name="title-style" type="radio" value="creative" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400">
+                  <label for="style-creative" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">创意活泼</label>
+                </div>
+                <div class="flex items-center p-2.5 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-300 dark:border-slate-600">
+                  <input id="style-emotional" name="title-style" type="radio" value="emotional" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400">
+                  <label for="style-emotional" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">情感共鸣</label>
+                </div>
+                <div class="flex items-center p-2.5 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-300 dark:border-slate-600">
+                  <input id="style-controversial" name="title-style" type="radio" value="controversial" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400">
+                  <label for="style-controversial" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">争议挑战</label>
+                </div>
+                <div class="flex items-center p-2.5 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-300 dark:border-slate-600 col-span-2" id="customStyleContainer">
+                  <input id="style-custom" name="title-style" type="radio" value="custom" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400">
+                  <label for="style-custom" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">自定义风格</label>
+                </div>
+                <div class="col-span-2 hidden" id="customStyleInputContainer">
+                  <input type="text" id="customStyleInput" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 dark:focus:ring-brand-400 dark:focus:border-brand-400 transition-colors" placeholder="输入自定义风格描述...">
+                </div>
+              </div>
+            </div>
+
+            <!-- 目标平台 -->
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">目标平台</label>
+              <div class="relative">
+                <select id="targetPlatform" class="w-full pl-10 pr-3 py-2.5 bg-gray-50 dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-base appearance-none focus:ring-brand-500 focus:border-brand-500 dark:focus:ring-brand-400 dark:focus:border-brand-400 transition-colors">
+                  <option value="general" selected="">通用</option>
+                  <option value="wechat">微信公众号</option>
+                  <option value="weibo">微博</option>
+                  <option value="douyin">抖音</option>
+                  <option value="xiaohongshu">小红书</option>
+                  <option value="zhihu">知乎</option>
+                  <option value="bilibili">B站</option>
+                  <option value="custom">自定义平台</option>
+                </select>
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <i class="fas fa-globe"></i>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500 dark:text-gray-400">
+                  <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+              </div>
+              <div id="customPlatformContainer" class="hidden">
+                <input type="text" id="customPlatformInput" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-sm focus:ring-brand-500 focus:border-brand-500 dark:focus:ring-brand-400 dark:focus:border-brand-400 transition-colors" placeholder="输入自定义平台...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- API 状态卡片 -->
+        <div id="apiStatusCard" class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden card-3d">
+          <div class="px-6 py-4 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 dark:from-yellow-500/20 dark:to-amber-500/20 border-b border-gray-100 dark:border-slate-700">
+            <h3 class="font-display font-semibold text-xl flex items-center">
+              <i class="fas fa-bolt mr-2 text-amber-500 dark:text-amber-400"></i>
+              API 状态
+            </h3>
+          </div>
+
+          <div class="p-6 space-y-3">
+            <div id="apiStatusDisplay" class="flex items-center space-x-3">
+              <!-- 状态会动态更新 -->
+              <div class="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                <i id="apiStatusIcon" class="fas fa-question text-gray-400"></i>
+              </div>
+              <div>
+                <div id="apiStatusTitle" class="font-medium">未配置</div>
+                <div id="apiStatusDesc" class="text-sm text-gray-500 dark:text-gray-400">请配置API以使用AI优化</div>
+              </div>
+            </div>
+
+            <div class="pt-2">
+              <button id="quickSettingsBtn" class="w-full inline-flex items-center justify-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg text-brand-700 dark:text-brand-300 bg-brand-50 dark:bg-brand-900/30 hover:bg-brand-100 dark:hover:bg-brand-800/50 transition-colors">
+                <i class="fas fa-cog mr-2"></i>
+                配置 API 设置
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 批量操作卡片 -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden card-3d">
+          <div class="px-6 py-4 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 dark:from-purple-500/20 dark:to-indigo-500/20 border-b border-gray-100 dark:border-slate-700">
+            <h3 class="font-display font-semibold text-xl flex items-center">
+              <i class="fas fa-layer-group mr-2 text-purple-500 dark:text-purple-400"></i>
+              批量操作
+            </h3>
+          </div>
+
+          <div class="p-6 space-y-3">
+            <div class="flex flex-col space-y-2">
+              <button id="importTitlesBtn" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <i class="fas fa-file-import mr-2"></i>
+                导入标题列表
+              </button>
+              <button id="exportResultsBtn" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <i class="fas fa-file-export mr-2"></i>
+                导出生成结果
+              </button>
+              <button id="batchReplaceBtn" class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <i class="fas fa-sync-alt mr-2"></i>
+                批量替换词语
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧主内容区 -->
+      <div class="lg:col-span-2 space-y-6">
+        <!-- 输入区域 -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden card-3d">
+          <div class="px-6 py-4 bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-accent-500/10 dark:from-brand-500/20 dark:via-purple-500/20 dark:to-accent-500/20 border-b border-gray-100 dark:border-slate-700">
+            <h3 class="font-display font-semibold text-xl flex items-center">
+              <i class="fas fa-pencil-alt mr-2 text-purple-500 dark:text-purple-400"></i>
+              输入标题
+            </h3>
+          </div>
+
+          <div class="p-6">
+            <div class="mb-4">
+              <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                <i class="fas fa-info-circle mr-1 text-brand-500 dark:text-brand-400"></i>
+                每行输入一个标题或主题，系统将为每个标题生成优化方案
+              </p>
+              <textarea id="titleInput" rows="5" class="w-full px-4 py-3 bg-gray-50 dark:bg-slate-700/50 border border-gray-300 dark:border-slate-600 rounded-lg text-base focus:ring-brand-500 focus:border-brand-500 dark:focus:ring-brand-400 dark:focus:border-brand-400 transition-colors" placeholder="在这里输入一行或多行标题/主题..."></textarea>
+            </div>
+
+            <div class="flex flex-wrap justify-end gap-3">
+              <button id="clearBtn" class="px-4 py-2.5 rounded-lg inline-flex items-center text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors btn-hover-effect">
+                <i class="fas fa-eraser mr-2"></i>
+                清空
+              </button>
+              <button id="generateBtn" class="px-6 py-2.5 rounded-lg inline-flex items-center text-white bg-gradient-to-r from-brand-600 to-accent-600 hover:from-brand-700 hover:to-accent-700 shadow-md hover:shadow-lg transition-all btn-hover-effect">
+                <span id="generateText">生成优化标题</span>
+                <i class="fas fa-bolt ml-2"></i>
+                <span id="generateSpinner" class="ml-2 hidden">
+                  <span class="dot-flashing"></span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 结果区域 -->
+        <div id="resultsContainer" class="hidden animate-slide-up">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden card-3d">
+            <div class="px-6 py-4 bg-gradient-to-r from-green-500/10 via-teal-500/10 to-cyan-500/10 dark:from-green-500/20 dark:via-teal-500/20 dark:to-cyan-500/20 border-b border-gray-100 dark:border-slate-700">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                  <h3 class="font-display font-semibold text-xl flex items-center">
+                    <i class="fas fa-magic mr-2 text-teal-500 dark:text-teal-400"></i>
+                    生成结果
+                  </h3>
+
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-300">
+                    <i class="fas fa-sort-amount-down mr-1"></i>
+                    按评分排序
+                  </span>
+                  <div class="relative">
+                    <button id="showOptionsBtn" class="p-1.5 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <div id="optionsDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg py-1 z-10 border border-gray-200 dark:border-gray-700">
+                      <button id="copyAllBtn" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-copy mr-2"></i> 复制所有结果
+                      </button>
+                      <button id="shareResultsBtn" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-share-alt mr-2"></i> 分享结果
+                      </button>
+                      <button id="regenerateBtn" class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fas fa-redo mr-2"></i> 重新生成
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div id="resultsContent" class="p-6 space-y-6">
+              <!-- 结果将在这里动态生成 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 加载中状态 -->
+        <div id="loadingState" class="hidden animate-slide-up">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden">
+            <div class="px-6 py-4 bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-accent-500/10 dark:from-brand-500/20 dark:via-purple-500/20 dark:to-accent-500/20 border-b border-gray-100 dark:border-slate-700">
+              <h3 class="font-display font-semibold text-xl flex items-center">
+                <i class="fas fa-spinner fa-pulse mr-2 text-brand-500 dark:text-brand-400"></i>
+                正在生成优化标题...
+              </h3>
+            </div>
+
+            <div class="p-6 space-y-5">
+              <div class="h-24 bg-gray-100 dark:bg-slate-700 rounded-lg animate-shimmer"></div>
+              <div class="h-24 bg-gray-100 dark:bg-slate-700 rounded-lg animate-shimmer"></div>
+              <div class="h-24 bg-gray-100 dark:bg-slate-700 rounded-lg animate-shimmer"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 收藏标题区域 -->
+        <div id="favoritesContainer" class="hidden">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl dark:shadow-slate-800/30 border border-gray-100 dark:border-slate-700 overflow-hidden card-3d">
+            <div class="px-6 py-4 bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-yellow-500/10 dark:from-amber-500/20 dark:via-orange-500/20 dark:to-yellow-500/20 border-b border-gray-100 dark:border-slate-700">
+              <div class="flex items-center justify-between">
+                <h3 class="font-display font-semibold text-xl flex items-center">
+                  <i class="fas fa-star mr-2 text-amber-500 dark:text-amber-400"></i>
+                  收藏标题
+                </h3>
+                <button id="clearFavoritesBtn" class="text-sm text-gray-600 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400">
+                  <i class="fas fa-trash-alt mr-1"></i>
+                  清空
+                </button>
+              </div>
+            </div>
+
+            <div id="favoritesContent" class="divide-y divide-gray-100 dark:divide-gray-700">
+              <!-- 收藏标题将在这里显示 -->
+              <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+                <i class="fas fa-star mb-2 text-2xl text-gray-300 dark:text-gray-600"></i>
+                <p>你还没有收藏任何标题</p>
+                <p class="text-sm mt-1">点击生成结果中的星标图标来收藏标题</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- 设置抽屉 -->
+  <div id="settingsDrawer" class="fixed inset-0 z-50 hidden">
+    <!-- 背景遮罩 -->
+    <div class="absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm transition-opacity"></div>
+
+    <!-- 抽屉内容 - 居中弹窗 -->
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-white dark:bg-slate-800 shadow-2xl rounded-2xl transition-all duration-300 scale-95 opacity-0">
+      <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700 rounded-t-2xl bg-gradient-to-r from-brand-500/10 via-purple-500/10 to-accent-500/10 dark:from-brand-500/20 dark:via-purple-500/20 dark:to-accent-500/20">
+        <h3 class="text-xl font-bold font-display flex items-center">
+          <i class="fas fa-cog mr-2 text-brand-500 dark:text-brand-400"></i>
+          API 配置
+        </h3>
+        <button id="closeSettingsBtn" class="p-2 rounded-full hover:bg-gray-100/50 dark:hover:bg-slate-700/50 transition-colors">
+          <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-80px)]">
+        <!-- 保存的配置选择区 -->
+        <div class="mb-6 bg-gray-50 dark:bg-slate-700/30 p-5 rounded-xl border border-gray-200 dark:border-slate-700">
+          <h4 class="text-base font-medium mb-4 flex items-center">
+            <i class="fas fa-bookmark mr-2 text-brand-500 dark:text-brand-400"></i>
+            快速选择配置
+          </h4>
+          <div id="savedConfigs" class="grid grid-cols-2 gap-3">
+            <!-- 保存的配置将在这里显示 -->
+            <div class="flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:shadow-md transition-shadow">
+              <div>
+                <p class="font-medium text-sm">OpenAI</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">gpt-4</p>
+              </div>
+              <button class="load-config-btn p-2 text-brand-600 dark:text-brand-400 hover:text-brand-800 dark:hover:text-brand-300" data-provider="openai">
+                <i class="fas fa-check-circle"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 配置表单 -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 p-5 space-y-5">
+          <h4 class="text-base font-medium flex items-center">
+            <i class="fas fa-cog mr-2 text-brand-500 dark:text-brand-400"></i>
+            配置详情
+          </h4>
+
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">API 供应商</label>
+              <select id="apiProvider" class="w-full px-3 py-2.5 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base">
+                <option value="custom">自定义</option>
+                <option value="openai" selected="">OpenAI</option>
+                <option value="anthropic">Anthropic</option>
+                <option value="gemini">Google Gemini</option>
+                <option value="deepseek">DeepSeek</option>
+                <option value="qyy3">QYY3 代理</option>
+                <option value="moonshot">Moonshot AI</option>
+                <option value="qianwen">阿里通义千问</option>
+                <option value="baidu">百度文心一言</option>
+                <option value="minimax">MiniMax</option>
+                <option value="zhipu">智谱 AI</option>
+              </select>
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">API URL</label>
+                <span id="apiUrlHelp" class="text-xs text-brand-600 dark:text-brand-400 cursor-pointer hover:underline">帮助</span>
+              </div>
+              <input id="apiUrl" type="text" placeholder="https://api.openai.com/v1/chat/completions" class="w-full px-3 py-2.5 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base">
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">模型名称</label>
+              <input id="modelName" type="text" placeholder="gpt-4" class="w-full px-3 py-2.5 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base">
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">API Key</label>
+              <div class="relative">
+                <input id="apiKey" type="password" placeholder="sk-..." class="w-full px-3 py-2.5 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base pr-10">
+                <button id="toggleApiKey" class="absolute inset-y-0 right-0 px-3 flex items-center">
+                  <i class="fas fa-eye text-gray-500 dark:text-gray-400"></i>
+                </button>
+              </div>
+            </div>
+
+            <div id="apiUrlHelpText" class="hidden p-4 bg-brand-50 dark:bg-brand-900/30 text-brand-800 dark:text-brand-200 rounded-lg text-sm">
+              <p class="mb-2 font-medium">API URL 格式说明：</p>
+              <ul class="list-disc pl-5 space-y-1">
+                <li>OpenAI: https://api.openai.com/v1/chat/completions</li>
+                <li>Anthropic: https://api.anthropic.com/v1/messages</li>
+                <li>如使用代理服务，请确保替换完整URL</li>
+                <li>部分服务需要在URL中包含API Key或Token参数</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="pt-3">
+            <button id="testApiBtn" class="w-full inline-flex items-center justify-center px-4 py-2.5 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-gradient-to-r from-brand-600 to-brand-700 hover:from-brand-700 hover:to-brand-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-offset-slate-800 transition-all">
+              <span id="testApiText">验证并保存</span>
+              <span id="testApiSpinner" class="ml-2 hidden">
+                <span class="dot-flashing"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 隐藏输入字段以保持兼容性 -->
+        <div class="hidden">
+          <select id="apiRequestFormat">
+            <option value="json" selected>JSON</option>
+          </select>
+          <input type="number" id="apiTimeout" value="60">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 历史记录抽屉 -->
+  <div id="historyDrawer" class="fixed inset-0 z-50 hidden">
+    <!-- 背景遮罩 -->
+    <div class="absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm transition-opacity"></div>
+
+    <!-- 抽屉内容 -->
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-white dark:bg-slate-800 shadow-2xl transform transition-transform duration-300 translate-x-full">
+      <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700">
+        <h3 class="text-xl font-bold font-display">历史记录</h3>
+        <div class="flex items-center space-x-2">
+          <button id="clearAllHistoryBtn" class="p-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 text-red-600 dark:text-red-400 text-sm flex items-center transition-colors">
+            <i class="fas fa-trash-alt mr-1"></i>
+            清空全部
+          </button>
+          <button id="closeHistoryBtn" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+            <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="p-6 space-y-6 overflow-y-auto max-h-[calc(100vh-80px)]">
+        <div id="historyEmpty" class="py-8 text-center">
+          <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-gray-100 dark:bg-slate-700">
+            <i class="fas fa-history text-2xl text-gray-400 dark:text-gray-500"></i>
+          </div>
+          <p class="text-gray-500 dark:text-gray-400">暂无历史记录</p>
+        </div>
+
+        <div id="historyList" class="space-y-4 hidden">
+          <!-- 历史记录将在这里显示 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 提示词预览模态框 -->
+  <div id="promptPreviewModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+    <!-- 背景遮罩 -->
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm"></div>
+
+    <!-- 模态框内容 -->
+    <div class="modal-content relative w-full max-w-2xl bg-white dark:bg-slate-800 shadow-2xl rounded-2xl mx-4">
+      <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700">
+        <h3 id="promptPreviewTitle" class="text-xl font-bold font-display">提示词预览</h3>
+        <button id="closePromptPreviewBtn" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+          <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+        </button>
+      </div>
+
+      <div class="p-6 max-h-[calc(80vh-100px)] overflow-y-auto">
+        <pre id="promptPreviewContent" class="whitespace-pre-wrap bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-sm"></pre>
+      </div>
+
+      <div class="flex justify-between items-center p-6 border-t border-gray-200 dark:border-slate-700">
+        <span class="text-sm text-gray-500 dark:text-gray-400">您可以查看不同提示词的详细内容</span>
+        <button id="usePromptBtn" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-medium transition-colors">使用此提示词</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 批量替换模态框 -->
+  <div id="batchReplaceModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+    <!-- 背景遮罩 -->
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm"></div>
+
+    <!-- 模态框内容 -->
+    <div class="modal-content relative w-full max-w-xl bg-white dark:bg-slate-800 shadow-2xl rounded-2xl mx-4">
+      <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700">
+        <h3 class="text-xl font-bold font-display">批量替换词语</h3>
+        <button id="closeBatchReplaceBtn" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+          <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">查找词语</label>
+          <input type="text" id="findText" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base">
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">替换为</label>
+          <input type="text" id="replaceText" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base">
+        </div>
+
+        <div class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="caseSensitive" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400 rounded">
+            <span class="text-sm text-gray-700 dark:text-gray-300">区分大小写</span>
+          </label>
+        </div>
+
+        <div class="space-y-2">
+          <label class="flex items-center space-x-2">
+            <input type="checkbox" id="replaceAll" class="h-4 w-4 text-brand-600 focus:ring-brand-500 dark:focus:ring-brand-400 rounded">
+            <span class="text-sm text-gray-700 dark:text-gray-300">替换所有匹配项</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex justify-end items-center p-6 border-t border-gray-200 dark:border-slate-700 space-x-3">
+        <button id="cancelReplaceBtn" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm font-medium transition-colors">取消</button>
+        <button id="confirmReplaceBtn" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-medium transition-colors">替换</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 导入标题模态框 -->
+  <div id="importTitlesModal" class="fixed inset-0 z-50 hidden flex items-center justify-center">
+    <!-- 背景遮罩 -->
+    <div class="modal-overlay absolute inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 backdrop-blur-sm"></div>
+
+    <!-- 模态框内容 -->
+    <div class="modal-content relative w-full max-w-xl bg-white dark:bg-slate-800 shadow-2xl rounded-2xl mx-4">
+      <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-slate-700">
+        <h3 class="text-xl font-bold font-display">导入标题列表</h3>
+        <button id="closeImportTitlesBtn" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 transition-colors">
+          <i class="fas fa-times text-gray-500 dark:text-gray-400"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">从文本导入</label>
+          <textarea id="importTitlesText" rows="8" class="w-full px-3 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg text-base" placeholder="每行一个标题..."></textarea>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">从 CSV/Excel 导入</label>
+          <div class="flex justify-center">
+            <button id="importFromFileBtn" class="inline-flex items-center justify-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+              <i class="fas fa-file-upload mr-2"></i>
+              选择文件...
+            </button>
+          </div>
+          <p class="text-xs text-gray-500 dark:text-gray-400 text-center">支持 .csv 或 .xlsx 文件</p>
+        </div>
+      </div>
+
+      <div class="flex justify-end items-center p-6 border-t border-gray-200 dark:border-slate-700 space-x-3">
+        <button id="cancelImportBtn" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm font-medium transition-colors">取消</button>
+        <button id="confirmImportBtn" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-medium transition-colors">导入</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 预定义的提示词模板
+    const PROMPT_TEMPLATES = {
+      default: `你是一位专业的标题优化专家。请对以下标题进行优化，并为每个优化后的标题提供吸引力评分（1-100分）。
+
+原则：
+1. 标题要简洁有力，避免冗长
+2. 使用具体、生动的词语
+3. 引发好奇心和期待感
+4. 保持与原标题的核心主题一致
+5. 标题不应使用误导性内容或夸大其词
+
+请为每个输入的标题生成3个优化方案，并按照吸引力从高到低排序。对每个方案进行简短分析，说明其优势。`,
+
+      mimeng: `你是一位精通咪蒙标题方法论的标题策划专家，擅长为各类内容创作引人注目、能引爆阅读量的标题。你深谙人类心理弱点，知道如何用文字触发读者的好奇心和点击欲望，同时保持标题与内容的相关性。
+
+## 咪蒙标题方法论：
+
+### 1. 危险法则 (DANGEROUS)
+- **威胁法则**：使用恐吓性词汇制造危机感
+- **死亡暗示**：巧妙运用"死"、"谋杀"等高风险词汇
+
+### 2. 意外法则 (UNEXPECTED)
+- **数字法则**：使用具体、异常或精确的数字
+- **符号法则**：运用问号、叹号或非常规符号引起注意
+- **超长/超短法则**：极端长度的标题或极简标题
+- **异常句式法则**：重复、递进或不寻常的句式结构
+- **反常识法则**：挑战常识或价值观，解构固定搭配
+
+### 3. 矛盾法则 (CONTRADICTION)
+- **选择矛盾**：设置两难选择
+- **物理矛盾**：将对立的物理概念并置
+- **心理矛盾**：描述违反常规心理反应的情况
+- **环境人物矛盾**：将不协调的人物与环境组合
+
+### 4. 痛点法则 (SORE POINT)
+- **虚荣痛点**：针对社会认可和地位的渴望
+- **欲望痛点**：巧妙暗示性或情感需求
+- **贪婪痛点**：关于金钱、成功的快速获取
+- **懒惰痛点**：承诺以最小努力获得最大回报
+
+### 5. 感同身受法则 (SYMPATHIZE)
+- **对号入座法则**：直接与读者建立关系，使用"你"
+- **细节法则**：使用具体细节创造画面感，便于代入
+- **接地气法则**：使用通俗易懂的语言，避免专业术语
+
+请为每个输入的标题生成3个优化方案，每个方案采用咪蒙标题方法论的不同法则。为每个标题提供吸引力评分（1-100分），并简要分析使用了哪些法则以及为何有效。`,
+
+      wechat: `你是一位精通公众号爆款标题创作的专家。
+
+1) 《女人的自信，都藏在这里》 - 对应性暗示+悬念，阅读量17W+
+2) 《我33岁阳了，老公连夜带着孩子逃了，半夜有人压在我身上，睁开眼我吓傻了》 - 阅读量150W+
+3) 《52岁保姆伺候32岁小伙三个月后，突然怀孕，小伙说不是他的，我大骂：不要脸，结果出乎意料》 - 阅读量1000W+
+4) 《24岁保姆伺候59岁老头半年，老头每天摸她脸，得知真相后，保姆说甘愿照顾他一辈子》 - 阅读量800W+
+5) 《老公不在家，公公半夜让我满足要求，掏出3万块，结局意外》 - 阅读量45W+
+
+公众号爆款标题的特点:
+1. 制造悬念和意外，引发阅读欲望
+2. 利用数字增加具体感和可信度
+3. 涉及关系、情感或道德两难的情境
+4. 具有明显的情节转折
+5. 暗示可能有争议性内容
+6. 对标题主角命运产生好奇
+
+请为每个输入的标题生成3个公众号爆款风格的优化方案，为每个方案提供吸引力评分（1-100分），并简要分析其爆款潜力。`,
+
+      custom: "" // 将由用户填充
+    };
+
+    // API供应商配置
+    const API_PROVIDERS = {
+      custom: {
+        url: "",
+        model: "",
+        placeholder: "https://your-api-endpoint.com/"
+      },
+      openai: {
+        url: "https://api.openai.com/v1/chat/completions",
+        model: "gpt-4",
+        placeholder: "https://api.openai.com/v1/chat/completions"
+      },
+      anthropic: {
+        url: "https://api.anthropic.com/v1/messages",
+        model: "claude-3-sonnet-20240229",
+        placeholder: "https://api.anthropic.com/v1/messages"
+      },
+      gemini: {
+        url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent",
+        model: "gemini-pro",
+        placeholder: "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=YOUR_API_KEY"
+      },
+      deepseek: {
+        url: "https://api.deepseek.com/v1/chat/completions",
+        model: "deepseek-chat",
+        placeholder: "https://api.deepseek.com/v1/chat/completions"
+      },
+      qyy3: {
+        url: "https://one-api.qyy3.com/v1/chat/completions",
+        model: "gpt-3.5-turbo",
+        placeholder: "https://one-api.qyy3.com/v1/chat/completions"
+      },
+      moonshot: {
+        url: "https://api.moonshot.cn/v1/chat/completions",
+        model: "moonshot-v1-8k",
+        placeholder: "https://api.moonshot.cn/v1/chat/completions"
+      },
+      qianwen: {
+        url: "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation",
+        model: "qwen-max",
+        placeholder: "https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation"
+      },
+      baidu: {
+        url: "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions",
+        model: "ernie-4.0",
+        placeholder: "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=YOUR_ACCESS_TOKEN"
+      },
+      minimax: {
+        url: "https://api.minimax.chat/v1/text/generation_pro",
+        model: "abab6-chat",
+        placeholder: "https://api.minimax.chat/v1/text/generation_pro?GroupId=YOUR_GROUP_ID"
+      },
+      zhipu: {
+        url: "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+        model: "glm-4",
+        placeholder: "https://open.bigmodel.cn/api/paas/v4/chat/completions"
+      }
+    };
+
+    // 全局变量
+    let favorites = [];
+    let currentApiConfig = null;
+    let currentPromptTemplate = "default";
+
+    // 生成标题模板
+    const TITLE_TEMPLATES = {
+      professional: [
+        "如何有效{verb}{subject}：{number}个专家推荐方法",
+        "{number}步骤掌握{subject}的专业技巧",
+        "{subject}指南：从新手到专家的完整路径",
+        "专家揭秘：{verb}{subject}的关键策略",
+        "深度解析：为什么{subject}对{target}至关重要",
+        "{verb}{subject}的科学方法：基于{number}项研究",
+        "权威解读：正确{verb}{subject}的核心原则",
+        "{subject}趋势分析：把握未来{time}的关键机遇",
+        "突破瓶颈：解决{subject}难题的系统方法",
+        "精准{verb}{subject}：专业人士都在用的技术"
+      ],
+      creative: [
+        "别再这样{verb}{subject}了！试试这{number}个令人惊艳的新方法",
+        "我尝试{verb}{subject}{time}后，发生了这些神奇变化...",
+        "{verb}{subject}也能如此有趣？{number}个创意玩法大公开",
+        "震惊！原来{verb}{subject}还可以这样操作",
+        "从零开始{verb}{subject}：连小白都能轻松上手的魔法指南",
+        "这可能是史上最有趣的{subject}指南，没有之一",
+        "{number}个疯狂创意，彻底改变你对{subject}的认知",
+        "当{subject}遇上{randomElement}：意想不到的完美组合",
+        "解锁{subject}的隐藏技能：让你脱颖而出的秘密武器",
+        "玩转{subject}：让枯燥任务变成快乐源泉的{number}种方法"
+      ],
+      emotional: [
+        "为什么我{verb}{subject}{time}后，终于明白了人生的真谛",
+        "那些{verb}{subject}教会我的人生课题，感动到哭...",
+        "当你坚持{verb}{subject}{time}，奇迹就会发生",
+        "我曾经对{subject}感到绝望，直到发现这个改变一切的方法",
+        "{subject}之路上的挣扎与蜕变：一个平凡人的非凡故事",
+        "失败{number}次后，我终于掌握了{verb}{subject}的秘诀",
+        "为了{verb}{subject}，我放弃了{valuableThing}，但我不后悔",
+        "当{subject}成为习惯，你的人生将发生质的飞跃",
+        "向{subject}说再见：一段痛苦却值得的成长历程",
+        "在{subject}中找到自我：疗愈心灵的温柔旅程"
+      ],
+      controversial: [
+        "大部分人{verb}{subject}的方式都错了，真相令人震惊",
+        "为什么{number}%的{target}对{subject}一无所知？揭露行业黑幕",
+        "反直觉：{verb}{subject}越多，反而会{negativeResult}",
+        "我敢打赌，你对{subject}的认知有这{number}个致命误区",
+        "专家们不会告诉你的{subject}真相：打破传统思维",
+        "{verb}{subject}有害健康？科学家最新发现颠覆常识",
+        "当心！{number}个你每天都在犯的{subject}错误",
+        "为什么传统{subject}方法正在慢慢杀死你的{valuableThing}",
+        "{subject}骗局大揭秘：你被蒙在鼓里多久了？",
+        "别再被{subject}专家忽悠了：揭开{number}个不为人知的行业内幕"
+      ],
+      custom: [] // 将根据用户定义的风格生成
+    };
+
+    // 随机词汇组合
+    const VOCABULARY = {
+      verb: ["提高", "改善", "优化", "掌握", "解决", "理解", "发展", "创新", "突破", "经营", "探索", "分析", "建立", "培养"],
+      number: ["3", "5", "7", "10", "12", "15", "20", "30", "50", "100"],
+      time: ["7天", "一个月", "100天", "一年", "三年", "五年"],
+      target: ["职场人", "学生", "创业者", "父母", "孩子", "女性", "男性", "家庭", "企业", "专业人士", "初学者"],
+      valuableThing: ["时间", "金钱", "健康", "人脉", "机会", "前途", "安全感", "创造力", "自由", "快乐"],
+      negativeResult: ["适得其反", "浪费时间", "损失金钱", "影响健康", "阻碍发展", "降低效率", "失去机会"],
+      randomElement: ["AI", "元宇宙", "区块链", "冥想", "运动", "艺术", "音乐", "旅行", "美食", "极简主义"]
+    };
+
+    // 智能替换标题中的关键词
+    function smartReplaceKeywords(template, subject) {
+      // 提取主题中可能的关键词
+      const words = subject.split(/\s+/).filter(word => word.length > 1);
+
+      // 随机选择词汇
+      function getRandomElement(array) {
+        return array[Math.floor(Math.random() * array.length)];
+      }
+
+      // 替换模板中的占位符
+      let result = template;
+
+      // 替换{subject}为原标题或其关键部分
+      result = result.replace(/{subject}/g, subject);
+
+      // 替换其他占位符
+      for (const [key, values] of Object.entries(VOCABULARY)) {
+        const placeholder = new RegExp(`{${key}}`, 'g');
+        if (result.match(placeholder)) {
+          result = result.replace(placeholder, getRandomElement(values));
+        }
+      }
+
+      return result;
+    }
+
+    // 根据自定义风格生成标题模板
+    function generateCustomTemplates(customStyle) {
+      // 解析自定义风格描述
+      const keywords = customStyle.split(/\s+|，|,/).filter(word => word.length > 0);
+
+      // 基于关键词生成模板
+      const templates = [];
+
+      // 添加一些基础模板
+      templates.push(`${customStyle}：解析{subject}的核心要素`);
+      templates.push(`用${customStyle}的方式理解{subject}：{number}个关键点`);
+      templates.push(`如何通过${customStyle}方法掌握{subject}`);
+      templates.push(`${customStyle} + {subject}：创新组合的力量`);
+      templates.push(`${customStyle}视角下的{subject}：重新定义规则`);
+
+      // 基于关键词组合生成更多模板
+      if (keywords.length > 0) {
+        keywords.forEach(keyword => {
+          if (keyword.length > 1) {
+            templates.push(`${keyword}：提升{subject}效果的秘密武器`);
+            templates.push(`使用${keyword}原理，解锁{subject}的新可能`);
+            templates.push(`为什么${keyword}是掌握{subject}的关键？`);
+          }
+        });
+      }
+
+      // 确保至少有5个模板
+      while (templates.length < 5) {
+        templates.push(`${customStyle}风格的{subject}指南：从入门到精通`);
+      }
+
+      return templates;
+    }
+
+    // 根据风格和原始标题生成优化的标题
+    function generateBetterTitles(originalTitle, style, customStyleText, numberOfVariations = 3) {
+      let templates = TITLE_TEMPLATES[style];
+
+      // 如果是自定义风格，生成模板
+      if (style === 'custom' && customStyleText) {
+        templates = generateCustomTemplates(customStyleText);
+      } else if (!templates) {
+        templates = TITLE_TEMPLATES.professional;
+      }
+
+      const variations = [];
+
+      // 随机选择不重复的模板
+      const selectedTemplates = [...templates]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, numberOfVariations);
+
+      // 为每个模板生成标题
+      selectedTemplates.forEach(template => {
+        const newTitle = smartReplaceKeywords(template, originalTitle);
+
+        variations.push({
+          title: newTitle,
+          score: Math.floor(Math.random() * 15) + 75,  // 75-90分
+          analysis: generateAnalysis(newTitle, style, customStyleText)
+        });
+      });
+
+      // 按分数排序
+      return variations.sort((a, b) => b.score - a.score);
+    }
+
+    // 生成分析文字
+    function generateAnalysis(title, style, customStyleText = '') {
+      const analysisTemplates = {
+        professional: [
+          "采用了精准的专业术语，建立了可信度和权威性",
+          "清晰传达了价值主张，让目标读者一目了然",
+          "结构严谨，传递了系统化的解决方案感",
+          "使用数据支持，增强了论点的说服力"
+        ],
+        creative: [
+          "巧妙运用惊奇元素，激发读者好奇心",
+          "语言生动有趣，给人耳目一新的感觉",
+          "创造性地结合了不同概念，形成独特视角",
+          "使用轻松愉快的语调，降低了严肃话题的门槛"
+        ],
+        emotional: [
+          "通过个人故事建立情感共鸣",
+          "触发读者的情感需求和内心渴望",
+          "植入希望和鼓励，给予读者前进的动力",
+          "运用情感词汇，直击读者内心深处"
+        ],
+        controversial: [
+          "挑战传统观念，引发读者思考",
+          "使用对比手法，凸显常见误区与真相",
+          "设置悬念，刺激读者求知欲",
+          "提出大胆观点，引发讨论和争议"
+        ],
+        custom: [
+          `融入${customStyleText}风格，形成差异化吸引力`,
+          `应用${customStyleText}元素，提升标题独特性`,
+          `结合${customStyleText}特点，增强受众关注度`,
+          `通过${customStyleText}手法，打造标题新鲜感`
+        ]
+      };
+
+      const templates = analysisTemplates[style] || analysisTemplates.professional;
+      return templates[Math.floor(Math.random() * templates.length)];
+    }
+
+    // 智能生成标题变体
+    function generateTitleVariations(originalTitles, style, customStyleText, count) {
+      return originalTitles.map(title => {
+        return {
+          original: title,
+          variations: generateBetterTitles(title, style, customStyleText, count)
+        };
+      });
+    }
+
+    // 创建API请求
+    function createApiRequest(apiConfig, prompt) {
+      if (!apiConfig) {
+        throw new Error('需要有效的API配置');
+      }
+
+      const { provider, url, model, key } = apiConfig;
+
+      // 确定请求格式
+      const requestFormat = document.getElementById('apiRequestFormat').value || 'json';
+      const timeout = parseInt(document.getElementById('apiTimeout').value || '60', 10) * 1000;
+
+      // 构建请求对象
+      let requestObj = null;
+
+      try {
+        // 检查URL是否有效
+        const urlObj = new URL(url);
+
+        // 根据不同供应商构建不同请求体
+        if (provider === 'openai') {
+          requestObj = {
+            url,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': /^\d+$/.test(key.trim()) ? key.trim() : `Bearer ${key}`
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                { role: "system", content: "You are a helpful assistant specialized in title optimization." },
+                { role: "user", content: prompt }
+              ],
+              max_tokens: 2000,
+              temperature: 0.7,
+              response_format: requestFormat === 'json' ? { type: "json_object" } : undefined
+            }),
+            timeout
+          };
+        } else if (provider === 'anthropic') {
+          requestObj = {
+            url,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': key,
+              'anthropic-version': '2023-06-01'
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                { role: "user", content: prompt }
+              ],
+              max_tokens: 2000,
+              temperature: 0.7
+            }),
+            timeout
+          };
+        } else if (provider === 'gemini') {
+          requestObj = {
+            url,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              contents: [
+                { role: "user", parts: [{ text: prompt }] }
+              ],
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 2000,
+                topP: 0.95,
+                topK: 40
+              }
+            }),
+            timeout
+          };
+        } else {
+          // 通用请求配置
+          // 处理不同的认证方式
+          let authHeader = `Bearer ${key}`;
+
+          // 如果是纯数字密钥，可能是不需要Bearer前缀
+          if (/^\d+$/.test(key.trim())) {
+            authHeader = key.trim();
+          }
+
+          console.log('使用认证头部:', authHeader.substring(0, 10) + '...');
+
+          requestObj = {
+            url,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': authHeader
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                { role: "user", content: prompt }
+              ],
+              max_tokens: 2000,
+              temperature: 0.7
+            }),
+            timeout
+          };
+        }
+
+        return requestObj;
+      } catch (error) {
+        console.error('创建API请求失败:', error);
+        throw new Error(`创建API请求失败: ${error.message}`);
+      }
+    }
+
+    // API请求函数
+    async function makeApiRequest(prompt, apiConfig) {
+      // 从提示词中提取标题
+      const titleRegex = /请为以下(?:每个)?标题生成\d+个优化方案[\s\S]*?([^:\n]+(?:\n[^:\n]+)*)/;
+      const match = prompt.match(titleRegex);
+      let inputTitles = [];
+
+      if (match && match[1]) {
+        inputTitles = match[1].split('\n')
+          .map(line => line.replace(/^\d+\.\s*/, '').trim())
+          .filter(line => line.length > 0);
+      } else {
+        // 如果无法从提示词中提取，试图直接解析
+        inputTitles = prompt.split('\n')
+          .filter(line => line.trim().length > 0 && !line.includes(':'))
+          .slice(0, 10);  // 限制最多10个标题
+      }
+
+      // 如果仍然没有找到标题，使用一个默认值
+      if (inputTitles.length === 0) {
+        inputTitles = ["无法识别标题"];
+      }
+      try {
+        // 创建API请求对象
+        const requestObj = createApiRequest(apiConfig, prompt);
+
+        // 使用fetch发送请求
+        const response = await fetch(requestObj.url, {
+          method: requestObj.method,
+          headers: requestObj.headers,
+          body: requestObj.body,
+          mode: 'cors',
+          credentials: 'omit'
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`API请求失败，状态码: ${response.status}, 响应内容:`, errorText);
+
+          try {
+            const errorJson = JSON.parse(errorText);
+            console.error('解析的错误信息:', errorJson);
+
+            // 如果是认证错误，提供更详细的错误信息
+            if (response.status === 401 ||
+                (errorJson.error &&
+                 (errorJson.error.type === 'invalid_authentication_error' ||
+                  errorJson.error.message.includes('Authentication')))) {
+              throw new Error(`API认证失败: 请检查您的API密钥是否正确。错误详情: ${errorJson.error?.message || 'Invalid Authentication'}`);
+            }
+
+            throw new Error(`API请求失败: ${errorJson.error?.message || errorText}`);
+          } catch (e) {
+            if (response.status === 401) {
+              throw new Error(`API认证失败: 请检查您的API密钥是否正确。状态码: ${response.status}`);
+            }
+            throw new Error(`API请求失败: ${errorText}`);
+          }
+        }
+
+        // 解析响应
+        const contentType = response.headers.get('content-type');
+        let data;
+
+        // 如果是JSON格式
+        if (contentType && contentType.includes('application/json')) {
+          data = await response.json();
+        } else {
+          // 如果不是JSON格式，尝试获取文本内容
+          const textContent = await response.text();
+          console.log('收到非JSON响应:', textContent.substring(0, 200) + '...');
+
+          // 如果是HTML或其他格式，尝试直接使用文本内容
+          if (textContent.includes('<html') || textContent.includes('<!DOCTYPE')) {
+            console.warn('API返回了HTML内容，尝试直接调用API');
+
+            // 尝试直接调用API，使用简化的请求
+            try {
+              // 使用简化的请求直接调用API
+              console.log('尝试直接调用API...');
+
+              // 使用存储的API密钥
+              const storedApiKey = localStorage.getItem('apiKey') || apiConfig.key;
+
+              // 检查API密钥格式
+              if (!storedApiKey || storedApiKey.trim() === '') {
+                console.error('未找到有效的API密钥');
+                throw new Error('未找到有效的API密钥，请在设置中配置API密钥');
+              }
+
+              // 打印密钥前后几位，中间隐藏
+              console.log('使用API密钥:', storedApiKey.substring(0, 3) + '...' + storedApiKey.substring(storedApiKey.length - 3));
+
+              // 尝试不同的认证方式
+              let authHeader = `Bearer ${storedApiKey}`;
+
+              // 如果是纯数字密钥，可能是不需要Bearer前缀
+              if (/^\d+$/.test(storedApiKey.trim())) {
+                authHeader = storedApiKey.trim();
+              }
+
+              console.log('使用认证头部:', authHeader.substring(0, 10) + '...');
+
+              const directResponse = await fetch('https://one-api.qyy3.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': authHeader
+                },
+                body: JSON.stringify({
+                  model: apiConfig.model || 'gpt-3.5-turbo',
+                  messages: [
+                    { role: 'system', content: '你是一个标题优化专家，擅长创造吸引人的标题。请直接返回标题变体，不要返回JSON格式。' },
+                    { role: 'user', content: prompt }
+                  ],
+                  temperature: 0.7,
+                  max_tokens: 2000
+                })
+              });
+
+              console.log('直接API调用响应状态:', directResponse.status);
+
+              if (directResponse.ok) {
+                try {
+                  const directData = await directResponse.json();
+                  console.log('直接API调用返回的JSON数据:', JSON.stringify(directData).substring(0, 200) + '...');
+                  const directContent = directData.choices?.[0]?.message?.content || '';
+
+                  if (directContent) {
+                    console.log('直接API调用成功，返回内容:', directContent.substring(0, 100) + '...');
+                    return { content: directContent };
+                  }
+                } catch (jsonError) {
+                  console.warn('无法解析直接API调用的JSON响应:', jsonError);
+
+                  // 尝试获取文本响应
+                  const directTextContent = await directResponse.text();
+                  console.log('直接API调用返回的文本内容:', directTextContent.substring(0, 200) + '...');
+                  return { content: directTextContent };
+                }
+              }
+
+              console.warn('直接API调用失败，切换为Markdown格式');
+            } catch (directError) {
+              console.error('直接API调用错误:', directError);
+            }
+
+            // 如果直接调用失败，将HTML内容转换为Markdown
+            let markdown = '# 标题优化结果\n\n';
+
+            // 尝试从文本中提取有用的部分
+            const cleanedText = textContent
+              .replace(/<[^>]*>/g, '') // 移除HTML标签
+              .replace(/\s+/g, ' ')    // 将多个空白字符压缩为一个
+              .trim();
+
+            markdown += `## API返回了HTML内容，请检查API配置\n\n`;
+            markdown += `请确保您的API配置正确，并且有足够的权限访问所选模型。\n\n`;
+            markdown += `如果问题仍然存在，请尝试以下解决方案：\n`;
+            markdown += `1. 检查API密钥是否正确\n`;
+            markdown += `2. 确认API URL是否正确\n`;
+            markdown += `3. 尝试使用不同的模型\n`;
+            markdown += `4. 如果使用代理服务，请确保代理服务器可用\n\n`;
+
+            console.log('返回错误信息:', markdown);
+            return { content: markdown };
+          }
+
+          // 尝试将文本内容解析为JSON
+          try {
+            data = JSON.parse(textContent);
+          } catch (e) {
+            // 如果不是JSON，将文本内容作为原始响应处理
+            data = { content: textContent };
+          }
+        }
+
+        // 从不同API供应商的响应中提取内容
+        let content = '';
+        if (data.content && typeof data.content === 'string') {
+          // 如果我们自己封装了文本响应
+          content = data.content;
+        } else if (apiConfig.provider === 'openai') {
+          content = data.choices?.[0]?.message?.content || '';
+        } else if (apiConfig.provider === 'anthropic') {
+          content = data.content?.[0]?.text || '';
+        } else if (apiConfig.provider === 'gemini') {
+          content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        } else {
+          // 通用响应提取
+          content = data.choices?.[0]?.message?.content ||
+                   data.output ||
+                   data.response ||
+                   data.generated_text ||
+                   data.text ||
+                   data.result ||
+                   '';
+
+          // 如果还是没有找到内容，尝试将整个响应转为字符串
+          if (!content && typeof data === 'object') {
+            try {
+              content = JSON.stringify(data, null, 2);
+              console.log('将响应转换为JSON字符串:', content.substring(0, 200) + '...');
+            } catch (e) {
+              console.warn('无法将响应转为字符串:', e);
+            }
+          }
+        }
+
+        // 如果提取到了内容，直接返回原始内容
+        if (content) {
+          console.log('提取到原始内容，长度:', content.length);
+          console.log('内容预览:', content.substring(0, 200) + '...');
+          return { content: content };
+        }
+
+        // 从提示词中提取标题
+        const titleRegex = /请为以下(?:每个)?标题生成\d+个优化方案[\s\S]*?([^:\n]+(?:\n[^:\n]+)*)/;
+        const match = prompt.match(titleRegex);
+        let inputTitles = [];
+
+        if (match && match[1]) {
+          inputTitles = match[1].split('\n')
+            .map(line => line.replace(/^\d+\.\s*/, '').trim())
+            .filter(line => line.length > 0);
+        }
+
+        // 解析响应内容
+        try {
+          // 首先检查是否是Markdown格式
+          if (content.includes('### 原标题') || content.includes('## 原标题')) {
+            console.log('检测到Markdown格式响应，解析Markdown...');
+            // 解析Markdown格式
+            const results = parseMarkdownResponse(content, inputTitles);
+            return { results };
+          }
+
+          // 尝试提取JSON
+          const jsonMatch = content.match(/```json\s*([\s\S]*?)\s*```/) ||
+                           content.match(/```\s*([\s\S]*?)\s*```/) ||
+                           content.match(/{[\s\S]*}/);
+
+          let jsonStr = jsonMatch ? jsonMatch[1] || jsonMatch[0] : content;
+
+          // 如果内容不是以{开头，尝试找到第一个{
+          if (!jsonStr.trim().startsWith('{')) {
+            const startIdx = jsonStr.indexOf('{');
+            if (startIdx !== -1) {
+              jsonStr = jsonStr.substring(startIdx);
+            }
+          }
+
+          // 解析JSON
+          const jsonData = JSON.parse(jsonStr);
+          return { results: jsonData.results || [] };
+        } catch (e) {
+          console.warn("解析响应失败，尝试解析Markdown或使用模拟数据:", e);
+
+          // 尝试解析Markdown格式
+          if (content.includes('### 原标题') || content.includes('## 原标题') ||
+              content.includes('### 方案') || content.includes('## 方案')) {
+            console.log('尝试解析Markdown格式...');
+            try {
+              const results = parseMarkdownResponse(content, inputTitles);
+              return { results };
+            } catch (mdError) {
+              console.warn("解析Markdown失败:", mdError);
+            }
+          }
+
+          // 返回友好的错误信息，而不是抛出异常
+          console.log('无法解析API响应，返回友好的错误信息');
+
+          // 生成友好的Markdown格式错误信息
+          let errorMarkdown = '# API响应解析失败\n\n';
+          errorMarkdown += '原始响应内容：\n\n```\n' + content + '\n```\n\n';
+          errorMarkdown += '请检查以下可能的问题：\n\n';
+          errorMarkdown += '* API配置是否正确\n';
+          errorMarkdown += '* 模型是否支持当前的请求格式\n';
+          errorMarkdown += '* 响应格式是否与预期不符\n\n';
+          errorMarkdown += '如果问题仍然存在，请尝试使用不同的模型或API配置。\n';
+
+          return { content: errorMarkdown };
+        }
+      } catch (error) {
+        console.error("API请求失败:", error);
+
+        // 返回友好的错误信息，而不是抛出异常
+        let errorMarkdown = '# API请求失败\n\n';
+        errorMarkdown += `错误信息：${error.message || '未知错误'}\n\n`;
+        errorMarkdown += '请检查以下可能的问题：\n\n';
+        errorMarkdown += '* 网络连接是否正常\n';
+        errorMarkdown += '* API URL是否正确\n';
+        errorMarkdown += '* API密钥是否有效\n';
+        errorMarkdown += '* 模型名称是否正确\n\n';
+
+        if (error.message.includes('Failed to fetch') || error.message.includes('网络')) {
+          errorMarkdown += '这可能是网络连接问题，请检查您的网络连接或代理设置。\n';
+        } else if (error.message.includes('401') || error.message.includes('Authentication') || error.message.includes('认证')) {
+          errorMarkdown += '这可能是API密钥错误，请检查您的API密钥是否正确。\n';
+        } else if (error.message.includes('404') || error.message.includes('Not Found')) {
+          errorMarkdown += '这可能是API URL错误，请检查您的API URL是否正确。\n';
+        }
+
+        return { content: errorMarkdown };
+      }
+    }
+
+    // 将Markdown转换为HTML
+    function convertMarkdownToHTML(markdown) {
+      // 处理标题
+      let html = markdown
+        .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">$1</h1>')
+        .replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold mt-6 mb-3 text-gray-800 dark:text-gray-200">$1</h2>')
+        .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold mt-4 mb-2 text-gray-700 dark:text-gray-300">$1</h3>')
+
+        // 处理列表
+        .replace(/^- (.+)$/gm, '<li class="ml-5 list-disc text-gray-700 dark:text-gray-300">$1</li>')
+        .replace(/^\* (.+)$/gm, '<li class="ml-5 list-disc text-gray-700 dark:text-gray-300">$1</li>')
+        .replace(/^\d+\. (.+)$/gm, '<li class="ml-5 list-decimal text-gray-700 dark:text-gray-300">$1</li>')
+
+        // 处理粗体和斜体
+        .replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold">$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em class="italic">$1</em>')
+
+        // 处理段落
+        .replace(/\n\n/g, '<br><br>');
+
+      // 将列表项包裹在ul标签中
+      html = html.replace(/(<li[^>]*>[^<]*<\/li>\s*)+/g, '<ul class="my-3">$&</ul>');
+
+      return html;
+    }
+
+    // 生成示例标题
+    function getExampleTitle(originalTitle, variant) {
+      const templates = [
+        `如何有效提升${originalTitle}：7个专家推荐方法`,
+        `揭秘${originalTitle}的隐藏技巧：从新手到高手的完整指南`,
+        `你不知道的${originalTitle}秘密：提升效率的30天计划`,
+        `为什么你的${originalTitle}不起作用？5个致命错误与解决方案`,
+        `打破传统：革命性的${originalTitle}新方法`,
+        `我尝试了${originalTitle}30天后，发生了这些惊人变化...`
+      ];
+
+      // 根据变体编号选择模板
+      const index = (variant - 1) % templates.length;
+      return templates[index];
+    }
+
+    // 生成示例分析
+    function getExampleAnalysis(variant) {
+      const analyses = [
+        '采用了数字和专家背书策略，增强了标题的可信度和专业性，吸引读者点击。',
+        '使用“揭秘”和“隐藏”等关键词触发读者好奇心，完整指南的承诺增加了价值感。',
+        '通过“你不知道”和具体天数创造信息差距，引发读者对未知内容的渴望。',
+        '提出问题并承诺解决方案，点出痛点同时给予希望，激发读者点击欲望。',
+        '使用“打破”和“革命性”等强烈对比词汇，挑战传统观念，吸引读者探索新方法。',
+        '采用个人发现变化的叙事形式，创造故事性和惊喜感，增强读者共鸣和代入感。'
+      ];
+
+      // 根据变体编号选择分析
+      const index = (variant - 1) % analyses.length;
+      return analyses[index];
+    }
+
+    // 生成Markdown格式的响应
+    function generateMarkdownResponse(inputTitles, prompt) {
+      console.log('生成Markdown格式的标题响应...');
+
+      // 提取风格信息
+      let style = 'professional';
+      if (prompt.includes('专业严谨')) style = 'professional';
+      else if (prompt.includes('创意活泼')) style = 'creative';
+      else if (prompt.includes('情感共鸣')) style = 'emotional';
+      else if (prompt.includes('争议挑战')) style = 'controversial';
+      else if (prompt.includes('自定义风格')) style = 'custom';
+
+      // 提取自定义风格文本
+      let customStyleText = '';
+      const customStyleMatch = prompt.match(/自定义风格:\s*([^\n]+)/);
+      if (customStyleMatch && customStyleMatch[1]) {
+        customStyleText = customStyleMatch[1];
+      }
+
+      // 提取生成数量
+      const countMatch = prompt.match(/生成(\d+)个优化/);
+      const count = countMatch ? parseInt(countMatch[1]) : 3;
+
+      // 生成标题变体
+      const variations = generateTitleVariations(inputTitles, style, customStyleText, count);
+
+      // 将结果转换为Markdown格式
+      let markdown = '# 标题优化结果\n\n';
+
+      variations.forEach((result, index) => {
+        markdown += `## 原标题 ${index + 1}: ${result.original}\n\n`;
+
+        result.variations.forEach((variation, vIndex) => {
+          markdown += `### 方案 ${vIndex + 1} (${variation.score}分)\n`;
+          markdown += `- **标题:** ${variation.title}\n`;
+          markdown += `- **分析:** ${variation.analysis}\n\n`;
+        });
+
+        markdown += '\n';
+      });
+
+      return markdown;
+    }
+
+    // 解析Markdown格式的API响应
+    function parseMarkdownResponse(content, inputTitles) {
+      console.log('开始解析Markdown响应...');
+      const results = [];
+
+      // 如果有输入标题，为每个标题创建一个结果对象
+      if (inputTitles && inputTitles.length > 0) {
+        inputTitles.forEach(title => {
+          results.push({
+            original: title,
+            variations: []
+          });
+        });
+      } else {
+        // 如果没有输入标题，尝试从Markdown中提取
+        const titleMatches = content.match(/(?:##|###)\s*原标题(?:\s*\d+)?[：:](.*?)(?=\n|$)/g);
+        if (titleMatches) {
+          titleMatches.forEach(match => {
+            const title = match.replace(/(?:##|###)\s*原标题(?:\s*\d+)?[：:]\s*/, '').trim();
+            results.push({
+              original: title,
+              variations: []
+            });
+          });
+        } else {
+          // 如果无法提取标题，创建一个默认结果
+          results.push({
+            original: "未识别标题",
+            variations: []
+          });
+        }
+      }
+
+      // 解析每个标题的变体
+      let currentResultIndex = 0;
+
+      // 分割内容为不同的标题块
+      const blocks = content.split(/(?:##|###)\s*原标题(?:\s*\d+)?[：:]/);
+
+      // 跳过第一个块（如果它是空的或只包含介绍性文本）
+      for (let i = 1; i < blocks.length; i++) {
+        const block = blocks[i];
+        if (!block.trim()) continue;
+
+        // 提取标题变体
+        const variations = [];
+
+        // 匹配方案和评分
+        const variantMatches = block.match(/(?:###|####)\s*方案\s*\d+\s*\(?([^\)\n]*\d+[^\)\n]*)\)?[：:]?([^\n]+)/g);
+        if (variantMatches) {
+          variantMatches.forEach(match => {
+            // 提取评分
+            const scoreMatch = match.match(/(\d+)(?:\s*分|\s*\/\s*100|%)/i);
+            const score = scoreMatch ? parseInt(scoreMatch[1]) : 80; // 默认分数
+
+            // 提取标题
+            let title = match.replace(/(?:###|####)\s*方案\s*\d+\s*\(?[^\)\n]*\)?[：:]?\s*/, '').trim();
+
+            // 提取分析（在当前方案和下一个方案之间的文本）
+            const analysisStart = block.indexOf(match) + match.length;
+            const nextVariantStart = block.indexOf('### 方案', analysisStart);
+            let analysisText = '';
+
+            if (nextVariantStart !== -1) {
+              analysisText = block.substring(analysisStart, nextVariantStart).trim();
+            } else {
+              analysisText = block.substring(analysisStart).trim();
+            }
+
+            // 清理分析文本
+            analysisText = analysisText.replace(/^[\s\n]*分析[：:]/i, '').trim();
+            if (!analysisText) {
+              analysisText = "此标题更具吸引力和点击率";
+            }
+
+            variations.push({
+              title: title,
+              score: score,
+              analysis: analysisText
+            });
+          });
+        }
+
+        // 如果没有找到变体，尝试其他格式
+        if (variations.length === 0) {
+          // 尝试匹配标题和分数的其他格式
+          const lines = block.split('\n');
+          let currentTitle = '';
+          let currentScore = 0;
+          let currentAnalysis = '';
+
+          for (let j = 0; j < lines.length; j++) {
+            const line = lines[j].trim();
+
+            // 跳过空行
+            if (!line) continue;
+
+            // 检查是否是标题行
+            if (line.match(/^\d+\.\s*/) || line.match(/^[\-\*]\s*/) || line.match(/^标题[：:]/i)) {
+              // 如果已经有一个标题，保存之前的变体
+              if (currentTitle) {
+                variations.push({
+                  title: currentTitle,
+                  score: currentScore || 85, // 默认分数
+                  analysis: currentAnalysis || "此标题更具吸引力和点击率"
+                });
+              }
+
+              // 提取新标题
+              currentTitle = line.replace(/^\d+\.\s*/, '').replace(/^[\-\*]\s*/, '').replace(/^标题[：:]/i, '').trim();
+              currentScore = 0;
+              currentAnalysis = '';
+
+              // 检查是否包含分数
+              const scoreMatch = line.match(/(\d+)(?:\s*分|\s*\/\s*100|%)/i);
+              if (scoreMatch) {
+                currentScore = parseInt(scoreMatch[1]);
+              }
+            }
+            // 检查是否是分数行
+            else if (line.match(/分数[：:]/i) || line.match(/评分[：:]/i)) {
+              const scoreMatch = line.match(/(\d+)(?:\s*分|\s*\/\s*100|%)/i);
+              if (scoreMatch) {
+                currentScore = parseInt(scoreMatch[1]);
+              }
+            }
+            // 检查是否是分析行
+            else if (line.match(/分析[：:]/i) || line.match(/理由[：:]/i)) {
+              currentAnalysis = line.replace(/^分析[：:]/i, '').replace(/^理由[：:]/i, '').trim();
+            }
+            // 否则添加到当前分析
+            else if (currentTitle && !line.match(/^\d+\.\s*/)) {
+              if (currentAnalysis) {
+                currentAnalysis += ' ' + line;
+              } else {
+                currentAnalysis = line;
+              }
+            }
+          }
+
+          // 保存最后一个变体
+          if (currentTitle) {
+            variations.push({
+              title: currentTitle,
+              score: currentScore || 85, // 默认分数
+              analysis: currentAnalysis || "此标题更具吸引力和点击率"
+            });
+          }
+        }
+
+        // 添加到结果
+        if (currentResultIndex < results.length) {
+          results[currentResultIndex].variations = variations;
+          currentResultIndex++;
+        }
+      }
+
+      // 确保每个结果至少有一个变体
+      results.forEach(result => {
+        if (!result.variations || result.variations.length === 0) {
+          result.variations = [{
+            title: result.original + " (优化版)",
+            score: 85,
+            analysis: "此标题经过优化，更具吸引力"
+          }];
+        }
+      });
+
+      console.log('Markdown解析完成，结果:', results);
+      return results;
+    }
+
+    // 验证API配置
+    async function validateApiConfig(config) {
+      return new Promise(async (resolve) => {
+        try {
+          // 简单格式验证
+          if (!config.url || !config.url.startsWith('http')) {
+            resolve({ success: false, message: 'API URL 格式不正确' });
+            return;
+          }
+
+          if (!config.key || config.key.length < 5) {
+            resolve({ success: false, message: 'API Key 格式不正确' });
+            return;
+          }
+
+          // 实际测试API连接
+          console.log('测试API连接...');
+
+          // 准备测试请求
+          // 处理不同的认证方式
+          let authHeader = `Bearer ${config.key}`;
+
+          // 如果是纯数字密钥，可能是不需要Bearer前缀
+          if (/^\d+$/.test(config.key.trim())) {
+            authHeader = config.key.trim();
+          }
+
+          // 构建测试请求
+          const testBody = {
+            model: config.model,
+            messages: [
+              { role: 'user', content: '请回复一个简单的测试消息。' }
+            ],
+            max_tokens: 10,
+            temperature: 0.1
+          };
+
+          // 根据不同的提供商调整请求格式
+          let headers = {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+          };
+
+          if (config.provider === 'anthropic') {
+            headers = {
+              'Content-Type': 'application/json',
+              'x-api-key': config.key,
+              'anthropic-version': '2023-06-01'
+            };
+          }
+
+          // 发送真实的测试请求
+          console.log('发送真实的API测试请求到:', config.url);
+          console.log('请求头部:', JSON.stringify(headers));
+          console.log('请求体:', JSON.stringify(testBody));
+
+          try {
+            const testResponse = await fetch(config.url, {
+              method: 'POST',
+              headers: headers,
+              body: JSON.stringify(testBody),
+              mode: 'cors',
+              credentials: 'omit',
+              // 设置超时，防止请求无限期挂起
+              signal: AbortSignal.timeout(10000) // 10秒超时
+            });
+
+            console.log('测试响应状态码:', testResponse.status);
+
+            // 检查响应
+            if (!testResponse.ok) {
+              const errorText = await testResponse.text();
+              console.error('测试失败，响应:', errorText);
+
+              try {
+                const errorJson = JSON.parse(errorText);
+                console.error('解析的错误信息:', errorJson);
+
+                // 如果是认证错误
+                if (testResponse.status === 401 ||
+                    (errorJson.error &&
+                     (errorJson.error.type === 'invalid_authentication_error' ||
+                      errorJson.error.message?.includes('Authentication')))) {
+                  resolve({ success: false, message: `API认证失败: ${errorJson.error?.message || 'Invalid Authentication'}` });
+                  return;
+                }
+
+                resolve({ success: false, message: `API连接失败: ${errorJson.error?.message || errorText}` });
+              } catch (e) {
+                // 如果无法解析JSON
+                if (testResponse.status === 401) {
+                  resolve({ success: false, message: `API认证失败: 请检查您的API密钥是否正确` });
+                  return;
+                }
+
+                resolve({ success: false, message: `API连接失败: ${errorText.substring(0, 100)}` });
+              }
+              return;
+            }
+
+            // 尝试解析响应内容，确保是有效的响应
+            try {
+              const responseContent = await testResponse.text();
+              console.log('测试响应内容:', responseContent.substring(0, 200) + '...');
+
+              // 尝试解析为JSON，确保是有效的响应
+              if (responseContent.includes('<html') || responseContent.includes('<!DOCTYPE')) {
+                console.error('API返回了HTML内容，可能是代理或认证问题');
+                console.error('返回的HTML内容片段:', responseContent.substring(0, 300));
+
+                // 检查是否包含常见错误信息
+                let errorMessage = 'API返回了HTML内容，请检查API配置或认证信息';
+
+                if (responseContent.includes('Access-Control-Allow-Origin') ||
+                    responseContent.includes('CORS') ||
+                    responseContent.includes('跨域')) {
+                  errorMessage = 'API返回了HTML内容，可能是跨域(CORS)问题。请使用支持跨域的API或代理服务。';
+                } else if (responseContent.includes('Authentication') ||
+                           responseContent.includes('Authorization') ||
+                           responseContent.includes('auth') ||
+                           responseContent.includes('认证') ||
+                           responseContent.includes('授权')) {
+                  errorMessage = 'API返回了HTML内容，可能是认证问题。请检查API密钥格式是否正确。';
+                } else if (responseContent.includes('404') ||
+                           responseContent.includes('Not Found') ||
+                           responseContent.includes('未找到')) {
+                  errorMessage = 'API返回了404错误，请检查API URL是否正确。';
+                } else if (responseContent.includes('500') ||
+                           responseContent.includes('Server Error') ||
+                           responseContent.includes('服务器错误')) {
+                  errorMessage = 'API返回了服务器错误，请稍后重试或联系服务提供商。';
+                }
+
+                // 添加解决建议
+                errorMessage += '\n\n建议解决方案:\n1. 确认API URL是否正确\n2. 检查API密钥格式\n3. 尝试使用代理服务如one-api.qyy3.com';
+
+                resolve({ success: false, message: errorMessage });
+                return;
+              }
+
+              // 尝试解析JSON
+              try {
+                JSON.parse(responseContent);
+              } catch (jsonError) {
+                console.error('API返回的不是有效的JSON:', jsonError);
+                resolve({ success: false, message: 'API返回的不是有效的JSON响应，请检查API配置' });
+                return;
+              }
+            } catch (contentError) {
+              console.error('无法获取响应内容:', contentError);
+              resolve({ success: false, message: `无法获取API响应内容: ${contentError.message}` });
+              return;
+            }
+
+            // 验证成功
+            console.log('API验证成功！');
+            currentApiConfig = config;
+            updateApiStatus();
+
+            // 返回成功结果
+            resolve({ success: true, message: '配置已验证并保存' });
+          } catch (fetchError) {
+            console.error('发送测试请求失败:', fetchError);
+
+            // 处理常见错误
+            if (fetchError.name === 'AbortError') {
+              resolve({ success: false, message: 'API请求超时，请检查网络连接或API服务器状态' });
+            } else if (fetchError.message.includes('Failed to fetch')) {
+              resolve({ success: false, message: 'API连接失败，请检查网络连接或API URL是否正确' });
+            } else if (fetchError.message.includes('NetworkError')) {
+              resolve({ success: false, message: '网络错误，可能是跨域请求被阻止或API服务器不可用' });
+            } else {
+              resolve({ success: false, message: `API连接错误: ${fetchError.message}` });
+            }
+            return;
+          }
+        } catch (error) {
+          console.error('验证过程发生错误:', error);
+          resolve({ success: false, message: `验证失败: ${error.message || '未知错误'}` });
+        }
+      });
+    }
+
+    // 更新API状态显示
+    function updateApiStatus() {
+      const statusIcon = document.getElementById('apiStatusIcon');
+      const statusTitle = document.getElementById('apiStatusTitle');
+      const statusDesc = document.getElementById('apiStatusDesc');
+
+      if (!currentApiConfig) {
+        statusIcon.className = 'fas fa-exclamation-circle text-red-500';
+        statusTitle.textContent = '未配置API';
+        statusDesc.textContent = '请配置API以使用AI优化';
+        return;
+      }
+
+      statusIcon.className = 'fas fa-check-circle text-green-500';
+      statusTitle.textContent = `已连接 (${currentApiConfig.provider})`;
+      statusDesc.textContent = `使用模型: ${currentApiConfig.model}`;
+    }
+
+    // 存储API配置
+    async function saveApiConfig() {
+      const config = {
+        provider: document.getElementById('apiProvider').value,
+        url: document.getElementById('apiUrl').value,
+        model: document.getElementById('modelName').value,
+        key: document.getElementById('apiKey').value
+      };
+
+      try {
+        console.log('开始验证API配置...');
+        // 尝试验证API配置
+        const validation = await validateApiConfig(config);
+        console.log('验证结果:', validation);
+
+        if (validation.success) {
+          console.log('验证成功，保存配置...');
+          // 保存到本地存储
+          try {
+            let savedConfigs = {};
+            try {
+              const configsStr = localStorage.getItem('titleCraftConfigs');
+              if (configsStr && configsStr !== 'undefined' && configsStr.trim() !== '') {
+                savedConfigs = JSON.parse(configsStr);
+              }
+            } catch (parseError) {
+              console.warn("配置解析失败:", parseError);
+            }
+            savedConfigs[config.provider] = {
+              url: config.url,
+              model: config.model,
+              // 不存储完整key，只存储前几位和后几位
+              key: config.key.slice(0, 3) + '...' + config.key.slice(-3)
+            };
+            localStorage.setItem('titleCraftConfigs', JSON.stringify(savedConfigs));
+            localStorage.setItem('titleCraftActiveConfig', JSON.stringify(config));
+
+            // 存储API密钥供直接调用使用
+            localStorage.setItem('apiKey', config.key);
+          } catch (e) {
+            console.warn("localStorage不可用，配置将只在当前会话中保存");
+            window.titleCraftActiveConfig = config;
+          }
+
+          updateSavedConfigsUI();
+        }
+
+        return validation;
+      } catch (error) {
+        console.error("验证API失败:", error);
+        return { success: false, message: error.message || '验证过程中发生未知错误' };
+      }
+    }
+
+    // 更新已保存配置UI
+    function updateSavedConfigsUI() {
+      const savedConfigsContainer = document.getElementById('savedConfigs');
+      savedConfigsContainer.innerHTML = '';
+
+      try {
+        let savedConfigs = {};
+        try {
+          const configsStr = localStorage.getItem('titleCraftConfigs');
+          if (configsStr && configsStr !== 'undefined' && configsStr.trim() !== '') {
+            savedConfigs = JSON.parse(configsStr);
+          }
+        } catch (parseError) {
+          console.warn("配置解析失败:", parseError);
+        }
+
+        if (Object.keys(savedConfigs).length === 0) {
+          savedConfigsContainer.innerHTML = `
+            <div class="col-span-2 p-4 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+              <p>暂无保存的配置</p>
+            </div>
+          `;
+          return;
+        }
+
+        for (const [provider, config] of Object.entries(savedConfigs)) {
+          const configItem = document.createElement('div');
+          configItem.className = 'flex items-center justify-between p-3 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700 hover:shadow-md transition-shadow';
+
+          let providerName = provider;
+          if (API_PROVIDERS[provider]) {
+            providerName = provider.charAt(0).toUpperCase() + provider.slice(1);
+          }
+
+          // 检查是否是当前活动配置
+          const isActive = currentApiConfig && currentApiConfig.provider === provider;
+
+          configItem.innerHTML = `
+            <div>
+              <p class="font-medium text-sm">${providerName}</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">${config.model}</p>
+            </div>
+            <button class="load-config-btn p-2 ${isActive ? 'text-green-500 dark:text-green-400' : 'text-brand-600 dark:text-brand-400'} hover:text-brand-800 dark:hover:text-brand-300" data-provider="${provider}" title="使用此配置">
+              <i class="fas ${isActive ? 'fa-check-circle' : 'fa-check'}"></i>
+            </button>
+          `;
+
+          savedConfigsContainer.appendChild(configItem);
+        }
+
+        // 添加加载配置按钮事件
+        document.querySelectorAll('.load-config-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const provider = this.getAttribute('data-provider');
+            loadSavedConfig(provider);
+          });
+        });
+      } catch (e) {
+        console.error("加载保存的配置失败:", e);
+        savedConfigsContainer.innerHTML = `
+          <div class="col-span-2 p-4 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-slate-800 rounded-lg border border-gray-200 dark:border-slate-700">
+            <p>无法加载保存的配置</p>
+          </div>
+        `;
+      }
+    }
+
+    // 加载保存的配置
+    async function loadSavedConfig(provider) {
+      try {
+        console.log('加载配置:', provider);
+
+        let savedConfigs = {};
+        try {
+          const configsStr = localStorage.getItem('titleCraftConfigs');
+          if (configsStr && configsStr !== 'undefined' && configsStr.trim() !== '') {
+            savedConfigs = JSON.parse(configsStr);
+          }
+        } catch (parseError) {
+          console.warn("配置解析失败:", parseError);
+        }
+        if (!savedConfigs[provider]) return;
+
+        // 尝试加载完整配置
+        let fullConfig = null;
+        try {
+          const activeConfig = JSON.parse(localStorage.getItem('titleCraftActiveConfig') || '{}');
+          if (activeConfig.provider === provider) {
+            fullConfig = activeConfig;
+          }
+        } catch (e) {
+          console.warn('无法加载完整配置');
+        }
+
+        // 设置UI
+        document.getElementById('apiProvider').value = provider;
+        document.getElementById('apiUrl').value = savedConfigs[provider].url || '';
+        document.getElementById('modelName').value = savedConfigs[provider].model || '';
+
+        // 如果有完整配置，设置API Key
+        if (fullConfig && fullConfig.key) {
+          document.getElementById('apiKey').value = fullConfig.key;
+
+          // 直接将其设置为当前活动配置
+          currentApiConfig = fullConfig;
+          updateApiStatus();
+
+          // 显示成功消息并关闭抽屉
+          showNotification(`已切换到 ${provider} 配置`, 'success');
+          closeSettingsDrawer();
+        } else {
+          // 如果没有完整配置，提示用户输入API Key
+          showNotification('请输入API Key并验证', 'info');
+        }
+      } catch (e) {
+        console.error("加载配置失败:", e);
+        showNotification('加载配置失败', 'error');
+      }
+    }
+
+    // 生成标题
+    async function generateTitles(inputTitles, promptTemplate, numTitles) {
+      try {
+        const prompt = getPromptTemplate(promptTemplate);
+        showLoadingState();
+
+        // 构建提示文本
+        const titlesText = inputTitles.map((title, i) => `${i+1}. ${title}`).join('\n');
+        const styleValue = document.querySelector('input[name="title-style"]:checked').value;
+        const platform = document.getElementById('targetPlatform').value;
+
+        // 获取自定义风格和平台
+        let styleInfo = `标题风格: ${styleValue === 'professional' ? '专业严谨' :
+                            styleValue === 'creative' ? '创意活泼' :
+                            styleValue === 'emotional' ? '情感共鸣' :
+                            styleValue === 'controversial' ? '争议挑战' : '自定义风格'}`;
+
+        if (styleValue === 'custom') {
+          const customStyle = document.getElementById('customStyleInput').value || '个性化';
+          styleInfo += `: ${customStyle}`;
+        }
+
+        let platformInfo = `目标平台: ${platform === 'general' ? '通用' :
+                              platform === 'wechat' ? '微信公众号' :
+                              platform === 'weibo' ? '微博' :
+                              platform === 'douyin' ? '抖音' :
+                              platform === 'xiaohongshu' ? '小红书' :
+                              platform === 'zhihu' ? '知乎' :
+                              platform === 'bilibili' ? 'B站' : '自定义平台'}`;
+
+        if (platform === 'custom') {
+          const customPlatform = document.getElementById('customPlatformInput').value || '自定义';
+          platformInfo += `: ${customPlatform}`;
+        }
+
+        const fullPrompt = `${prompt}\n\n${styleInfo}\n${platformInfo}\n\n请为以下${inputTitles.length > 1 ? '每个' : ''}标题生成${numTitles}个优化方案，并为每个方案提供吸引力评分（1-100分）：\n\n${titlesText}`;
+
+        try {
+          // 记录生成历史
+          saveGenerationHistory(inputTitles, promptTemplate, styleValue, platform);
+
+          // 使用实际API生成标题
+          let apiConfig = currentApiConfig;
+
+          // 如果没有配置，检查是否有保存的API密钥
+          if (!apiConfig) {
+            const customApiKey = localStorage.getItem('apiKey');
+            if (customApiKey) {
+              console.log('使用存储的API密钥');
+
+              // 使用QYY3代理服务
+              const qyy3Config = API_PROVIDERS.qyy3;
+              apiConfig = {
+                provider: 'qyy3',
+                url: qyy3Config.url,
+                model: qyy3Config.model,
+                key: customApiKey
+              };
+
+              console.log('使用API配置:', apiConfig.provider, apiConfig.url, apiConfig.model);
+            } else {
+              showNotification('请先配置API信息', 'error');
+              hideLoadingState();
+              return false;
+            }
+          }
+
+          console.log('发送API请求，提示词:', fullPrompt.substring(0, 100) + '...');
+          console.log('使用API配置:', apiConfig.provider, apiConfig.url, apiConfig.model);
+
+          const result = await makeApiRequest(fullPrompt, apiConfig);
+
+          // 检查是否是原始内容响应
+          if (result.content && typeof result.content === 'string') {
+            console.log('检测到原始内容响应，直接显示');
+            // 不需要解析，直接使用原始内容
+            // 如果内容不是Markdown格式，将其转换为Markdown
+            if (!result.content.includes('#') && !result.content.includes('-') && !result.content.includes('*')) {
+              console.log('内容不是Markdown格式，转换为Markdown');
+              result.content = `# 标题优化结果\n\n${result.content.replace(/\n/g, '\n\n')}`;
+            }
+          }
+
+          renderResults(result);
+          hideLoadingState();
+
+          return true;
+        } catch (error) {
+          let errorMessage = "生成失败: ";
+          if (error.message.includes("Unexpected token")) {
+            errorMessage += "API返回了无效数据，请检查API配置";
+          } else if (error.message.includes("Failed to fetch")) {
+            errorMessage += "网络连接问题，请检查网络设置或稍后重试";
+          } else if (error.message.includes("status")) {
+            errorMessage += `API服务异常 (${error.message})`;
+          } else {
+            errorMessage += error.message || "未知错误";
+          }
+          console.error("生成标题失败:", error);
+          showError(errorMessage);
+          hideLoadingState();
+          return false;
+        }
+      } catch (error) {
+        console.error("准备生成失败:", error);
+        showError("准备失败: " + (error.message || "未知错误"));
+        hideLoadingState();
+        return false;
+      }
+    }
+
+    // 全局变量保存当前的数据
+    let currentResultData = null;
+
+    // 渲染生成的标题结果
+    function renderResults(data) {
+      // 保存数据
+      currentResultData = data;
+
+      const resultsContent = document.getElementById('resultsContent');
+      resultsContent.innerHTML = '';
+
+      if (!data) {
+        resultsContent.innerHTML = `
+          <div class="p-4 bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-lg">
+            <p>无法获取结果，请重试。</p>
+          </div>
+        `;
+        return;
+      }
+
+      // 渲染Markdown模式
+      renderMarkdownMode(data);
+
+      // 显示结果区域
+      document.getElementById('resultsContainer').classList.remove('hidden');
+    }
+
+    // 渲染Markdown模式
+    function renderMarkdownMode(data) {
+      const resultsContent = document.getElementById('resultsContent');
+      resultsContent.innerHTML = '';
+
+      // 如果是Markdown格式的响应，直接显示
+      if (data.content && typeof data.content === 'string') {
+        console.log('显示原始响应内容');
+
+        // 美化Markdown内容
+        let beautifiedContent = data.content;
+
+        // 确保标题格式正确
+        if (!beautifiedContent.startsWith('# ')) {
+          beautifiedContent = '# 标题优化结果\n\n' + beautifiedContent;
+        }
+
+        // 高级排版优化
+        beautifiedContent = beautifiedContent
+          // 标题格式化
+          .replace(/^(#+)\s*(.+)$/gm, (match, hashes, title) => `\n${hashes} ${title.trim()}\n`) // 标准化标题格式
+          // 列表格式化
+          .replace(/^\s*[-*]\s+(.+)$/gm, '* $1') // 统一列表标记
+          .replace(/^(\s*[*-]\s+.+)$/gm, '\n$1') // 列表项前添加空行
+          // 段落格式化
+          .replace(/\n{3,}/g, '\n\n') // 将多个空行压缩为一个
+          .replace(/([^\n])\n([^\n#*\s])/g, '$1\n\n$2') // 段落间添加空行
+          // 强调格式化
+          .replace(/\*\*([^*]+)\*\*/g, '**$1**') // 修复粗体标记
+          .replace(/([^\s*])\*\*([^*]+)\*\*([^\s*])/g, '$1 **$2** $3') // 粗体前后添加空格
+          // 最终清理
+          .replace(/^\s+|\s+$/g, '') // 去除首尾空白
+          .replace(/\n{3,}/g, '\n\n'); // 再次确保没有过多空行
+
+        console.log('美化后的Markdown内容:', beautifiedContent.substring(0, 200) + '...');
+
+        // 创建容器
+        const markdownContainer = document.createElement('div');
+        markdownContainer.className = 'p-6 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm markdown-content';
+
+        // 将Markdown转换为HTML
+        const markdownContent = convertMarkdownToHTML(beautifiedContent);
+        markdownContainer.innerHTML = markdownContent;
+
+        // 添加复制按钮
+        const copyButton = document.createElement('button');
+        copyButton.className = 'mt-5 px-4 py-2.5 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors flex items-center';
+        copyButton.innerHTML = '<i class="fas fa-copy mr-2"></i> 复制全部内容';
+        copyButton.addEventListener('click', () => {
+          navigator.clipboard.writeText(beautifiedContent)
+            .then(() => showNotification('内容已复制到剪贴板', 'success'))
+            .catch(err => showNotification('复制失败: ' + err.message, 'error'));
+        });
+
+        // 设置最大高度和滚动
+        markdownContainer.style.maxHeight = '70vh';
+        markdownContainer.style.overflowY = 'auto';
+        markdownContainer.style.paddingRight = '16px';
+
+        // 添加到结果区域
+        resultsContent.appendChild(markdownContainer);
+        resultsContent.appendChild(copyButton);
+
+        // 添加额外的CSS样式来美化Markdown显示
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+          .markdown-content {
+            line-height: 1.6;
+            font-size: 1.05rem;
+          }
+          .markdown-content h1 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #2563eb;
+            font-weight: 700;
+            line-height: 1.3;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+          }
+          .markdown-content h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            font-weight: 600;
+            color: #1e40af;
+          }
+          .markdown-content h3 {
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+            font-weight: 600;
+          }
+          .markdown-content p {
+            margin-bottom: 1rem;
+          }
+          .markdown-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            list-style-type: disc;
+          }
+          .markdown-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            list-style-type: decimal;
+          }
+          .markdown-content li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+          }
+          .markdown-content li p {
+            margin-bottom: 0.5rem;
+          }
+          .markdown-content strong {
+            font-weight: 600;
+            color: #111827;
+          }
+          .markdown-content em {
+            font-style: italic;
+          }
+          .markdown-content blockquote {
+            border-left: 4px solid #e5e7eb;
+            padding-left: 1rem;
+            margin-left: 0;
+            margin-right: 0;
+            font-style: italic;
+            color: #6b7280;
+          }
+          .markdown-content code {
+            font-family: monospace;
+            background-color: #f3f4f6;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9em;
+          }
+          .markdown-content pre {
+            background-color: #f3f4f6;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+          }
+          .markdown-content pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+          }
+          .dark .markdown-content h1 {
+            color: #3b82f6;
+            border-bottom-color: #374151;
+          }
+          .dark .markdown-content h2 {
+            border-bottom-color: #374151;
+            color: #60a5fa;
+          }
+          .dark .markdown-content h3 {
+            color: #9ca3af;
+          }
+          .dark .markdown-content strong {
+            color: #f3f4f6;
+          }
+          .dark .markdown-content blockquote {
+            border-left-color: #4b5563;
+            color: #9ca3af;
+          }
+          .dark .markdown-content code {
+            background-color: #374151;
+          }
+          .dark .markdown-content pre {
+            background-color: #1f2937;
+          }
+        `;
+        document.head.appendChild(styleElement);
+        return;
+      }
+
+      // 如果有结构化数据，将其转换为Markdown格式显示
+      if (data.results && data.results.length > 0) {
+        // 创建容器
+        const markdownContainer = document.createElement('div');
+        markdownContainer.className = 'p-5 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 shadow-sm markdown-content';
+
+        // 生成Markdown内容
+        let markdownContent = '# 标题优化结果\n\n';
+
+        data.results.forEach((result, index) => {
+          markdownContent += `## 原标题 ${index + 1}: ${result.original}\n\n`;
+
+          // 按评分排序
+          const sortedVariations = [...result.variations].sort((a, b) => b.score - a.score);
+
+          sortedVariations.forEach((variation, vIndex) => {
+            markdownContent += `### 方案 ${vIndex + 1} (${variation.score}分)\n`;
+            markdownContent += `* **标题:** ${variation.title}\n`;
+            markdownContent += `* **分析:** ${variation.analysis}\n\n`;
+          });
+
+          markdownContent += '\n';
+        });
+
+        // 将Markdown转换为HTML
+        const htmlContent = convertMarkdownToHTML(markdownContent);
+        markdownContainer.innerHTML = htmlContent;
+
+        // 设置最大高度和滚动
+        markdownContainer.style.maxHeight = '70vh';
+        markdownContainer.style.overflowY = 'auto';
+        markdownContainer.style.paddingRight = '10px';
+
+        // 添加复制按钮
+        const copyButton = document.createElement('button');
+        copyButton.className = 'mt-4 px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors flex items-center';
+        copyButton.innerHTML = '<i class="fas fa-copy mr-2"></i> 复制全部内容';
+        copyButton.addEventListener('click', () => {
+          navigator.clipboard.writeText(markdownContent)
+            .then(() => showNotification('内容已复制到剪贴板', 'success'))
+            .catch(err => showNotification('复制失败: ' + err.message, 'error'));
+        });
+
+        // 添加到结果区域
+        resultsContent.appendChild(markdownContainer);
+        resultsContent.appendChild(copyButton);
+
+        // 添加额外的CSS样式
+        const styleElement = document.createElement('style');
+        styleElement.textContent = `
+          .markdown-content h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #2563eb;
+          }
+          .markdown-content h2 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          .markdown-content h3 {
+            font-size: 1.25rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+          }
+          .markdown-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+          }
+          .markdown-content li {
+            margin-bottom: 0.5rem;
+          }
+          .markdown-content strong {
+            font-weight: 600;
+            color: #111827;
+          }
+          .dark .markdown-content h1 {
+            color: #3b82f6;
+          }
+          .dark .markdown-content h2 {
+            border-bottom-color: #374151;
+          }
+          .dark .markdown-content h3 {
+            color: #9ca3af;
+          }
+          .dark .markdown-content strong {
+            color: #f3f4f6;
+          }
+        `;
+        document.head.appendChild(styleElement);
+      }
+    }
+
+
+
+    // 更新收藏显示
+    // 处理收藏功能
+
+    // 更新收藏显示
+    function updateFavoritesUI() {
+      const favoritesContainer = document.getElementById('favoritesContainer');
+      const favoritesContent = document.getElementById('favoritesContent');
+
+      // 没有收藏或收藏为空时显示提示
+      if (!favorites || favorites.length === 0) {
+        favoritesContent.innerHTML = `
+          <div class="p-6 text-center text-gray-500 dark:text-gray-400">
+            <i class="fas fa-star mb-2 text-2xl text-gray-300 dark:text-gray-600"></i>
+            <p>你还没有收藏任何标题</p>
+            <p class="text-sm mt-1">点击生成结果中的星标图标来收藏标题</p>
+          </div>
+        `;
+        favoritesContainer.classList.add('hidden');
+        return;
+      }
+
+      // 有收藏时显示收藏列表
+      favoritesContent.innerHTML = '';
+
+      // 按添加时间倒序排列
+      const sortedFavorites = [...favorites].sort((a, b) =>
+        new Date(b.timestamp) - new Date(a.timestamp)
+      );
+
+      sortedFavorites.forEach(fav => {
+        const favItem = document.createElement('div');
+        favItem.className = 'p-4 border-b border-gray-100 dark:border-gray-700 last:border-0';
+
+        favItem.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                  fav.score >= 90 ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200' :
+                  fav.score >= 75 ? 'bg-brand-100 dark:bg-brand-900/30 text-brand-800 dark:text-brand-200' :
+                  'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200'
+                }">
+                  <i class="fas fa-star mr-1 text-xs"></i>
+                  ${fav.score}
+                </span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">${formatDate(fav.timestamp)}</span>
+              </div>
+              <p class="text-gray-900 dark:text-gray-100 font-medium">${fav.title}</p>
+            </div>
+            <div class="flex space-x-2">
+              <button class="copy-favorite-btn p-1.5 text-gray-500 dark:text-gray-400 hover:text-brand-600 dark:hover:text-brand-400 rounded-full" data-text="${fav.title}">
+                <i class="fas fa-copy text-sm"></i>
+              </button>
+              <button class="remove-favorite-btn p-1.5 text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 rounded-full" data-title="${fav.title}">
+                <i class="fas fa-times text-sm"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        favoritesContent.appendChild(favItem);
+      });
+
+      // 显示收藏容器
+      favoritesContainer.classList.remove('hidden');
+
+      // 添加复制按钮功能
+      document.querySelectorAll('.copy-favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const text = this.getAttribute('data-text');
+          navigator.clipboard.writeText(text).then(() => {
+            const originalHTML = this.innerHTML;
+            this.innerHTML = '<i class="fas fa-check text-sm"></i>';
+            setTimeout(() => {
+              this.innerHTML = originalHTML;
+            }, 2000);
+          }).catch(err => {
+            console.error('复制失败:', err);
+          });
+        });
+      });
+
+      // 添加删除收藏按钮功能
+      document.querySelectorAll('.remove-favorite-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const title = this.getAttribute('data-title');
+          const existingIndex = favorites.findIndex(fav => fav.title === title);
+
+          if (existingIndex !== -1) {
+            favorites.splice(existingIndex, 1);
+
+            // 保存到本地存储
+            try {
+              localStorage.setItem('titleCraftFavorites', JSON.stringify(favorites));
+            } catch (e) {
+              console.warn("无法保存收藏:", e);
+            }
+
+            // 更新收藏显示
+            updateFavoritesUI();
+
+            // 更新结果中的收藏按钮状态
+            document.querySelectorAll(`.favorite-btn[data-title="${title}"]`).forEach(btn => {
+              btn.classList.remove('text-amber-500', 'dark:text-amber-400');
+              btn.classList.add('text-gray-500', 'dark:text-gray-400');
+              btn.querySelector('i').classList.remove('fa-star');
+              btn.querySelector('i').classList.add('fa-star-o');
+              btn.setAttribute('title', '收藏标题');
+            });
+          }
+        });
+      });
+    }
+
+    // 格式化日期
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return `${date.getMonth() + 1}月${date.getDate()}日`;
+    }
+
+    // 显示/隐藏加载状态
+    function showLoadingState() {
+      document.getElementById('loadingState').classList.remove('hidden');
+      document.getElementById('resultsContainer').classList.add('hidden');
+      document.getElementById('generateBtn').setAttribute('disabled', true);
+      document.getElementById('generateSpinner').classList.remove('hidden');
+      document.getElementById('generateText').textContent = '生成中...';
+    }
+
+    function hideLoadingState() {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('generateBtn').removeAttribute('disabled');
+      document.getElementById('generateSpinner').classList.add('hidden');
+      document.getElementById('generateText').textContent = '生成优化标题';
+    }
+
+    // 显示错误信息
+    function showError(message) {
+      const resultsContent = document.getElementById('resultsContent');
+      resultsContent.innerHTML = `
+        <div class="p-4 bg-red-50 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-lg">
+          <p>${message}</p>
+        </div>
+      `;
+      document.getElementById('resultsContainer').classList.remove('hidden');
+    }
+
+    // 获取提示词模板
+    function getPromptTemplate(template) {
+      if (template === 'custom') {
+        return document.getElementById('customPrompt').value || PROMPT_TEMPLATES.default;
+      }
+      return PROMPT_TEMPLATES[template] || PROMPT_TEMPLATES.default;
+    }
+
+    // 保存生成历史
+    function saveGenerationHistory(titles, promptTemplate, styleValue, platform) {
+      try {
+        const history = {
+          id: Date.now(),
+          timestamp: new Date().toISOString(),
+          titles: titles,
+          promptTemplate: promptTemplate,
+          style: styleValue,
+          platform: platform
+        };
+
+        let histories = [];
+        try {
+          const stored = localStorage.getItem('titleCraftHistory');
+          histories = (stored && stored !== 'undefined' && stored.trim() !== '') ? JSON.parse(stored) : [];
+        } catch (e) {
+          console.warn("无法读取历史记录", e);
+        }
+
+        // 添加新记录到开头
+        histories.unshift(history);
+
+        // 限制历史记录数量
+        if (histories.length > 20) {
+          histories = histories.slice(0, 20);
+        }
+
+        try {
+          localStorage.setItem('titleCraftHistory', JSON.stringify(histories));
+        } catch (e) {
+          console.warn("无法保存历史记录", e);
+        }
+
+        // 更新历史UI
+        updateHistoryUI();
+      } catch (error) {
+        console.error("保存历史失败:", error);
+      }
+    }
+
+    // 更新历史记录UI
+    function updateHistoryUI() {
+      const historyList = document.getElementById('historyList');
+      const historyEmpty = document.getElementById('historyEmpty');
+
+      try {
+        let histories = [];
+        try {
+          const stored = localStorage.getItem('titleCraftHistory');
+          histories = (stored && stored !== 'undefined' && stored.trim() !== '') ? JSON.parse(stored) : [];
+        } catch (e) {
+          console.warn("无法读取历史记录", e);
+        }
+
+        if (!histories || histories.length === 0) {
+          historyList.classList.add('hidden');
+          historyEmpty.classList.remove('hidden');
+          return;
+        }
+
+        historyList.classList.remove('hidden');
+        historyEmpty.classList.add('hidden');
+
+        // 清空现有内容
+        historyList.innerHTML = '';
+
+        // 添加历史记录项
+        histories.forEach(history => {
+          const date = new Date(history.timestamp);
+          const formattedDate = `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')} ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+
+          const historyItem = document.createElement('div');
+          historyItem.className = 'bg-white dark:bg-slate-800 rounded-xl shadow-sm p-4 border border-gray-200 dark:border-slate-700';
+
+          historyItem.innerHTML = `
+            <div class="flex justify-between items-start mb-2">
+              <div class="text-xs text-gray-500 dark:text-gray-400">${formattedDate}</div>
+              <div class="flex items-center space-x-2">
+                <button class="history-delete-btn p-1.5 text-xs bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-100 dark:hover:bg-red-800/50 transition-colors" data-id="${history.id}">
+                  <i class="fas fa-trash-alt mr-1"></i> 删除
+                </button>
+                <button class="history-restore-btn p-1.5 text-xs bg-brand-50 dark:bg-brand-900/30 text-brand-700 dark:text-brand-300 rounded-lg hover:bg-brand-100 dark:hover:bg-brand-800/50 transition-colors" data-id="${history.id}">
+                  <i class="fas fa-sync-alt mr-1"></i> 恢复
+                </button>
+              </div>
+            </div>
+            <div class="space-y-1 mb-2">
+              ${history.titles.map(title => `
+                <div class="text-sm text-gray-800 dark:text-gray-200 truncate">${title}</div>
+              `).join('')}
+            </div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-400">
+                ${history.promptTemplate === 'default' ? '通用标题' :
+                  history.promptTemplate === 'mimeng' ? '咪蒙标题' :
+                  history.promptTemplate === 'wechat' ? '公众号标题' : '自定义'}
+              </span>
+              <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-400">
+                ${history.style === 'professional' ? '专业严谨' :
+                  history.style === 'creative' ? '创意活泼' :
+                  history.style === 'emotional' ? '情感共鸣' :
+                  history.style === 'controversial' ? '争议挑战' : '自定义风格'}
+              </span>
+              <span class="px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-400">
+                ${history.platform === 'general' ? '通用' :
+                  history.platform === 'wechat' ? '微信公众号' :
+                  history.platform === 'weibo' ? '微博' :
+                  history.platform === 'douyin' ? '抖音' :
+                  history.platform === 'xiaohongshu' ? '小红书' :
+                  history.platform === 'zhihu' ? '知乎' :
+                  history.platform === 'bilibili' ? 'B站' : '自定义平台'}
+              </span>
+            </div>
+          `;
+
+          historyList.appendChild(historyItem);
+        });
+
+        // 添加恢复按钮事件
+        document.querySelectorAll('.history-restore-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = parseInt(this.getAttribute('data-id'));
+            restoreHistory(id);
+          });
+        });
+
+        // 添加删除按钮事件
+        document.querySelectorAll('.history-delete-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const id = parseInt(this.getAttribute('data-id'));
+            deleteHistory(id);
+          });
+        });
+      } catch (error) {
+        console.error("更新历史UI失败:", error);
+      }
+    }
+
+    // 恢复历史记录
+    function restoreHistory(id) {
+      try {
+        let histories = [];
+        try {
+          const stored = localStorage.getItem('titleCraftHistory');
+          histories = (stored && stored !== 'undefined' && stored.trim() !== '') ? JSON.parse(stored) : [];
+        } catch (e) {
+          console.warn("无法读取历史记录", e);
+          return;
+        }
+
+        const history = histories.find(h => h.id === id);
+        if (!history) return;
+
+        // 恢复表单状态
+        document.getElementById('titleInput').value = history.titles.join('\n');
+
+        // 恢复提示词模板
+        document.querySelectorAll('.prompt-template-btn').forEach(btn => {
+          if (btn.getAttribute('data-template') === history.promptTemplate) {
+            btn.click();
+          }
+        });
+
+        // 恢复风格
+        document.getElementById('style-' + history.style).checked = true;
+        if (history.style === 'custom') {
+          document.getElementById('customStyleContainer').classList.add('highlight-effect');
+          document.getElementById('customStyleInputContainer').classList.remove('hidden');
+        }
+
+        // 恢复平台
+        document.getElementById('targetPlatform').value = history.platform;
+        if (history.platform === 'custom') {
+          document.getElementById('customPlatformContainer').classList.remove('hidden');
+        }
+
+        // 关闭历史抽屉
+        closeHistoryDrawer();
+
+        // 滚动到输入区域
+        document.getElementById('titleInput').scrollIntoView({ behavior: 'smooth' });
+
+        // 显示成功提示
+        showNotification('历史记录已恢复', 'success');
+      } catch (error) {
+        console.error("恢复历史失败:", error);
+        showNotification('恢复历史失败: ' + error.message, 'error');
+      }
+    }
+
+    // 删除单个历史记录
+    function deleteHistory(id) {
+      try {
+        let histories = [];
+        try {
+          const stored = localStorage.getItem('titleCraftHistory');
+          histories = (stored && stored !== 'undefined' && stored.trim() !== '') ? JSON.parse(stored) : [];
+        } catch (e) {
+          console.warn("无法读取历史记录", e);
+          return;
+        }
+
+        // 找到并删除指定历史记录
+        const newHistories = histories.filter(h => h.id !== id);
+
+        // 保存更新后的历史记录
+        try {
+          localStorage.setItem('titleCraftHistory', JSON.stringify(newHistories));
+        } catch (e) {
+          console.warn("无法保存历史记录", e);
+        }
+
+        // 更新历史记录UI
+        updateHistoryUI();
+
+        // 显示成功提示
+        showNotification('已删除历史记录', 'success');
+      } catch (error) {
+        console.error("删除历史记录失败:", error);
+        showNotification('删除历史记录失败: ' + error.message, 'error');
+      }
+    }
+
+    // 清空所有历史记录
+    function clearAllHistory() {
+      if (confirm('确定要清空所有历史记录吗？')) {
+        try {
+          // 清空历史记录
+          localStorage.setItem('titleCraftHistory', '[]');
+
+          // 更新历史记录UI
+          updateHistoryUI();
+
+          // 显示成功提示
+          showNotification('已清空所有历史记录', 'success');
+        } catch (error) {
+          console.error("清空历史记录失败:", error);
+          showNotification('清空历史记录失败: ' + error.message, 'error');
+        }
+      }
+    }
+
+    // 清除所有收藏
+    function clearAllFavorites() {
+      if (confirm('确定要清空所有收藏的标题吗？')) {
+        favorites = [];
+
+        // 保存到本地存储
+        try {
+          localStorage.setItem('titleCraftFavorites', JSON.stringify(favorites));
+        } catch (e) {
+          console.warn("无法保存收藏:", e);
+        }
+
+        // 更新收藏显示
+        updateFavoritesUI();
+
+        // 更新结果中的收藏按钮状态
+        document.querySelectorAll(`.favorite-btn`).forEach(btn => {
+          btn.classList.remove('text-amber-500', 'dark:text-amber-400');
+          btn.classList.add('text-gray-500', 'dark:text-gray-400');
+          btn.querySelector('i').classList.remove('fa-star');
+          btn.querySelector('i').classList.add('fa-star-o');
+          btn.setAttribute('title', '收藏标题');
+        });
+
+        showNotification('已清空所有收藏', 'success');
+      }
+    }
+
+    // 显示提示词预览
+    function showPromptPreview(template) {
+      const modalTitle = document.getElementById('promptPreviewTitle');
+      const modalContent = document.getElementById('promptPreviewContent');
+      const usePromptBtn = document.getElementById('usePromptBtn');
+
+      // 设置标题
+      let templateName = '未知模板';
+      switch (template) {
+        case 'default': templateName = '通用标题优化'; break;
+        case 'mimeng': templateName = '咪蒙标题方法论'; break;
+        case 'wechat': templateName = '公众号爆款标题'; break;
+        case 'custom': templateName = '自定义提示词'; break;
+      }
+
+      modalTitle.textContent = `提示词预览: ${templateName}`;
+
+      // 设置内容
+      const templateContent = PROMPT_TEMPLATES[template] || '模板内容为空';
+      modalContent.textContent = templateContent;
+
+      // 设置按钮数据
+      usePromptBtn.setAttribute('data-template', template);
+
+      // 显示模态框
+      const modal = document.getElementById('promptPreviewModal');
+      modal.classList.remove('hidden');
+
+      // 添加动画效果
+      setTimeout(() => {
+        modal.querySelector('.modal-overlay').classList.add('active');
+        modal.querySelector('.modal-content').classList.add('active');
+      }, 10);
+    }
+
+    // 隐藏提示词预览
+    function hidePromptPreview() {
+      const modal = document.getElementById('promptPreviewModal');
+      const overlay = modal.querySelector('.modal-overlay');
+      const content = modal.querySelector('.modal-content');
+
+      // 移除动画效果
+      overlay.classList.remove('active');
+      content.classList.remove('active');
+
+      // 隐藏模态框
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    // 批量替换文本
+    function batchReplaceText() {
+      const findText = document.getElementById('findText').value;
+      const replaceText = document.getElementById('replaceText').value;
+      const caseSensitive = document.getElementById('caseSensitive').checked;
+      const replaceAll = document.getElementById('replaceAll').checked;
+
+      if (!findText) {
+        showNotification('请输入要查找的文本', 'error');
+        return;
+      }
+
+      // 获取输入标题
+      const titleInput = document.getElementById('titleInput');
+      const titles = titleInput.value;
+
+      // 创建正则表达式
+      const flags = caseSensitive ? 'g' : 'gi';
+      const regex = new RegExp(findText, flags);
+
+      // 执行替换
+      let newText;
+      if (replaceAll) {
+        newText = titles.replace(regex, replaceText);
+      } else {
+        newText = titles.replace(regex, function(match) {
+          // 只替换第一次匹配
+          regex.lastIndex = 0;
+          // 标记为已替换
+          return replaceText;
+        });
+      }
+
+      // 更新文本
+      titleInput.value = newText;
+
+      // 计算替换次数
+      const originalMatches = (titles.match(regex) || []).length;
+      const replacedMatches = replaceAll ? originalMatches : Math.min(originalMatches, 1);
+
+      // 关闭模态框
+      closeBatchReplaceModal();
+
+      // 显示成功消息
+      showNotification(`已替换 ${replacedMatches} 处文本`, 'success');
+    }
+
+    // 显示批量替换模态框
+    function showBatchReplaceModal() {
+      const modal = document.getElementById('batchReplaceModal');
+      modal.classList.remove('hidden');
+
+      // 添加动画效果
+      setTimeout(() => {
+        modal.querySelector('.modal-overlay').classList.add('active');
+        modal.querySelector('.modal-content').classList.add('active');
+      }, 10);
+
+      // 重置表单
+      document.getElementById('findText').value = '';
+      document.getElementById('replaceText').value = '';
+      document.getElementById('caseSensitive').checked = false;
+      document.getElementById('replaceAll').checked = true;
+
+      // 聚焦搜索框
+      setTimeout(() => {
+        document.getElementById('findText').focus();
+      }, 300);
+    }
+
+    // 关闭批量替换模态框
+    function closeBatchReplaceModal() {
+      const modal = document.getElementById('batchReplaceModal');
+      const overlay = modal.querySelector('.modal-overlay');
+      const content = modal.querySelector('.modal-content');
+
+      // 移除动画效果
+      overlay.classList.remove('active');
+      content.classList.remove('active');
+
+      // 隐藏模态框
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    // 显示通知
+    function showNotification(message, type = 'info') {
+      // 创建通知元素
+      const notification = document.createElement('div');
+      notification.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 animate-slide-down transition-opacity duration-300 ${
+        type === 'success' ? 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-200' :
+        type === 'error' ? 'bg-red-100 dark:bg-red-900/50 text-red-800 dark:text-red-200' :
+        'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-200'
+      }`;
+
+      notification.innerHTML = `
+        <div class="flex items-center">
+          <i class="fas ${
+            type === 'success' ? 'fa-check-circle' :
+            type === 'error' ? 'fa-exclamation-circle' :
+            'fa-info-circle'
+          } mr-2"></i>
+          <span>${message}</span>
+        </div>
+      `;
+
+      document.body.appendChild(notification);
+
+      // 3秒后移除通知
+      setTimeout(() => {
+        notification.classList.add('opacity-0', 'translate-y-[-20px]');
+        setTimeout(() => {
+          if (notification.parentNode) {
+            document.body.removeChild(notification);
+          }
+        }, 300);
+      }, 3000);
+    }
+
+    // 导入标题列表
+    function importTitles(text) {
+      if (!text.trim()) {
+        showNotification('请输入要导入的标题', 'error');
+        return;
+      }
+
+      // 分割文本为行
+      const lines = text.split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+
+      if (lines.length === 0) {
+        showNotification('未找到有效标题', 'error');
+        return;
+      }
+
+      // 更新输入框内容
+      document.getElementById('titleInput').value = lines.join('\n');
+
+      // 关闭模态框
+      closeImportTitlesModal();
+
+      // 显示成功消息
+      showNotification(`已导入 ${lines.length} 个标题`, 'success');
+    }
+
+    // 显示导入标题模态框
+    function showImportTitlesModal() {
+      const modal = document.getElementById('importTitlesModal');
+      modal.classList.remove('hidden');
+
+      // 添加动画效果
+      setTimeout(() => {
+        modal.querySelector('.modal-overlay').classList.add('active');
+        modal.querySelector('.modal-content').classList.add('active');
+      }, 10);
+
+      // 重置表单
+      document.getElementById('importTitlesText').value = '';
+
+      // 聚焦输入框
+      setTimeout(() => {
+        document.getElementById('importTitlesText').focus();
+      }, 300);
+    }
+
+    // 关闭导入标题模态框
+    function closeImportTitlesModal() {
+      const modal = document.getElementById('importTitlesModal');
+      const overlay = modal.querySelector('.modal-overlay');
+      const content = modal.querySelector('.modal-content');
+
+      // 移除动画效果
+      overlay.classList.remove('active');
+      content.classList.remove('active');
+
+      // 隐藏模态框
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    // 导出生成结果
+    function exportResults() {
+      const resultsContainer = document.getElementById('resultsContent');
+
+      if (!resultsContainer.children.length) {
+        showNotification('没有可导出的结果', 'error');
+        return;
+      }
+
+      try {
+        // 创建导出文本
+        let exportText = '# 标题优化结果\n\n';
+
+        // 遍历结果节点
+        Array.from(resultsContainer.children).forEach((resultNode, index) => {
+          // 如果是分隔线，跳过
+          if (resultNode.tagName === 'DIV' && resultNode.classList.contains('my-6')) {
+            return;
+          }
+
+          // 获取原始标题
+          const originalTitle = resultNode.querySelector('p.mt-1\\.5.text-gray-800').textContent;
+          exportText += `## 原标题 ${index + 1}: ${originalTitle}\n\n`;
+
+          // 获取变体标题
+          const variations = resultNode.querySelectorAll('.p-4.bg-white');
+          variations.forEach((variation, vIndex) => {
+            const score = variation.querySelector('span.inline-flex.items-center.px-2\\.5.py-0\\.5.rounded-full').textContent.trim();
+            const title = variation.querySelector('p.text-gray-900.dark\\:text-gray-100').textContent;
+            const analysis = variation.querySelector('p.text-sm.text-gray-600').textContent;
+
+            exportText += `### 方案 ${vIndex + 1} (${score})\n`;
+            exportText += `- **标题:** ${title}\n`;
+            exportText += `- **分析:** ${analysis}\n\n`;
+          });
+        });
+
+        // 复制到剪贴板
+        navigator.clipboard.writeText(exportText).then(() => {
+          showNotification('结果已复制到剪贴板', 'success');
+        }).catch(err => {
+          console.error('复制失败:', err);
+          showNotification('复制到剪贴板失败', 'error');
+        });
+      } catch (error) {
+        console.error("导出结果失败:", error);
+        showNotification('导出结果失败: ' + error.message, 'error');
+      }
+    }
+
+
+
+    // 初始化页面
+    document.addEventListener('DOMContentLoaded', function() {
+      // 尝试加载收藏
+      try {
+        const savedFavorites = localStorage.getItem('titleCraftFavorites');
+        if (savedFavorites && savedFavorites !== 'undefined' && savedFavorites.trim() !== '') {
+          try {
+            favorites = JSON.parse(savedFavorites);
+            updateFavoritesUI();
+          } catch (parseError) {
+            console.warn("收藏夹解析失败:", parseError);
+            localStorage.removeItem('titleCraftFavorites'); // 清除无效数据
+          }
+        }
+      } catch (e) {
+        console.warn("无法加载收藏:", e);
+      }
+
+      // 尝试加载API配置
+      try {
+        const savedConfig = localStorage.getItem('titleCraftActiveConfig');
+        if (savedConfig && savedConfig !== 'undefined' && savedConfig.trim() !== '') {
+          try {
+            currentApiConfig = JSON.parse(savedConfig);
+          } catch (parseError) {
+            console.warn("API配置解析失败:", parseError);
+            localStorage.removeItem('titleCraftActiveConfig'); // 清除无效配置
+          }
+        }
+      } catch (e) {
+        console.warn("无法加载API配置:", e);
+      }
+
+      // 更新API状态显示
+      updateApiStatus();
+
+      // 初始化API配置下拉框
+      const apiProviderSelect = document.getElementById('apiProvider');
+      apiProviderSelect.addEventListener('change', function() {
+        const provider = API_PROVIDERS[this.value] || API_PROVIDERS.custom;
+        document.getElementById('apiUrl').value = provider.url || '';
+        document.getElementById('apiUrl').placeholder = provider.placeholder || '';
+        document.getElementById('modelName').value = provider.model || '';
+      });
+
+      // 触发初始值
+      apiProviderSelect.dispatchEvent(new Event('change'));
+
+      // API URL 帮助文字显示/隐藏
+      document.getElementById('apiUrlHelp').addEventListener('click', function() {
+        const helpText = document.getElementById('apiUrlHelpText');
+        helpText.classList.toggle('hidden');
+      });
+
+      // API密钥显示/隐藏切换
+      document.getElementById('toggleApiKey').addEventListener('click', function() {
+        const apiKeyInput = document.getElementById('apiKey');
+        const currentType = apiKeyInput.getAttribute('type');
+        if (currentType === 'password') {
+          apiKeyInput.setAttribute('type', 'text');
+          this.innerHTML = '<i class="fas fa-eye-slash text-gray-500 dark:text-gray-400"></i>';
+        } else {
+          apiKeyInput.setAttribute('type', 'password');
+          this.innerHTML = '<i class="fas fa-eye text-gray-500 dark:text-gray-400"></i>';
+        }
+      });
+
+      // 提示词模板按钮选择
+      document.querySelectorAll('.prompt-template-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const template = this.getAttribute('data-template');
+          currentPromptTemplate = template;
+
+          // 移除所有按钮的选中状态
+          document.querySelectorAll('.prompt-template-btn').forEach(b => {
+            b.classList.remove('bg-brand-100', 'dark:bg-brand-900/30', 'text-brand-700', 'dark:text-brand-300', 'border-brand-500/50', 'dark:border-brand-500/30');
+            b.classList.add('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border-transparent', 'hover:border-gray-200', 'dark:hover:border-gray-700');
+          });
+
+          // 添加当前按钮的选中状态
+          this.classList.remove('bg-gray-100', 'dark:bg-gray-800', 'text-gray-700', 'dark:text-gray-300', 'border-transparent', 'hover:border-gray-200', 'dark:hover:border-gray-700');
+          this.classList.add('bg-brand-100', 'dark:bg-brand-900/30', 'text-brand-700', 'dark:text-brand-300', 'border-brand-500/50', 'dark:border-brand-500/30');
+
+          // 处理自定义提示词面板
+          const customPromptContainer = document.getElementById('customPromptContainer');
+
+          if (template === 'custom') {
+            customPromptContainer.classList.remove('hidden');
+            document.getElementById('customPrompt').value = PROMPT_TEMPLATES.custom || '';
+          } else {
+            customPromptContainer.classList.add('hidden');
+          }
+        });
+      });
+
+      // 查看提示词按钮
+      document.querySelectorAll('.view-template-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation(); // 防止触发父元素点击事件
+          const template = this.getAttribute('data-template');
+          showPromptPreview(template);
+        });
+      });
+
+      // 查看当前提示词按钮
+      document.getElementById('viewCurrentTemplateBtn').addEventListener('click', function() {
+        showPromptPreview(currentPromptTemplate);
+      });
+
+      // 关闭提示词预览
+      document.getElementById('closePromptPreviewBtn').addEventListener('click', hidePromptPreview);
+
+      // 使用此提示词按钮
+      document.getElementById('usePromptBtn').addEventListener('click', function() {
+        const template = this.getAttribute('data-template');
+        document.querySelectorAll('.prompt-template-btn').forEach(btn => {
+          if (btn.getAttribute('data-template') === template) {
+            btn.click();
+          }
+        });
+        hidePromptPreview();
+      });
+
+      // 自定义风格选项
+      document.getElementById('style-custom').addEventListener('change', function() {
+        if (this.checked) {
+          document.getElementById('customStyleInputContainer').classList.remove('hidden');
+          setTimeout(() => {
+            document.getElementById('customStyleInput').focus();
+          }, 10);
+        }
+      });
+
+      // 其他风格选项
+      document.querySelectorAll('input[name="title-style"]:not(#style-custom)').forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (this.checked) {
+            document.getElementById('customStyleInputContainer').classList.add('hidden');
+          }
+        });
+      });
+
+      // 目标平台选择
+      document.getElementById('targetPlatform').addEventListener('change', function() {
+        if (this.value === 'custom') {
+          document.getElementById('customPlatformContainer').classList.remove('hidden');
+          setTimeout(() => {
+            document.getElementById('customPlatformInput').focus();
+          }, 10);
+        } else {
+          document.getElementById('customPlatformContainer').classList.add('hidden');
+        }
+      });
+
+      // 设置按钮和抽屉
+      document.getElementById('showSettingsBtn').addEventListener('click', function() {
+        const settingsDrawer = document.getElementById('settingsDrawer');
+        settingsDrawer.classList.remove('hidden');
+        setTimeout(() => {
+          // 显示弹窗
+          const drawerContent = settingsDrawer.querySelector('div:last-child');
+          drawerContent.classList.remove('scale-95', 'opacity-0');
+          drawerContent.classList.add('scale-100', 'opacity-100');
+        }, 10);
+
+        // 加载保存的配置
+        updateSavedConfigsUI();
+      });
+
+      // 快速设置按钮
+      document.getElementById('quickSettingsBtn').addEventListener('click', function() {
+        document.getElementById('showSettingsBtn').click();
+      });
+
+      document.getElementById('closeSettingsBtn').addEventListener('click', closeSettingsDrawer);
+
+      // 历史记录按钮和抽屉
+      document.getElementById('showHistoryBtn').addEventListener('click', function() {
+        const historyDrawer = document.getElementById('historyDrawer');
+        historyDrawer.classList.remove('hidden');
+        setTimeout(() => {
+          historyDrawer.querySelector('div:last-child').classList.remove('translate-x-full');
+          updateHistoryUI();
+        }, 10);
+      });
+
+      document.getElementById('closeHistoryBtn').addEventListener('click', closeHistoryDrawer);
+      document.getElementById('clearAllHistoryBtn').addEventListener('click', clearAllHistory);
+
+      // 关闭抽屉的遮罩点击事件
+      document.querySelectorAll('#settingsDrawer > div:first-child, #historyDrawer > div:first-child').forEach(mask => {
+        mask.addEventListener('click', function() {
+          if (this.parentNode.id === 'settingsDrawer') {
+            closeSettingsDrawer();
+          } else {
+            closeHistoryDrawer();
+          }
+        });
+      });
+
+      // 验证并保存API配置
+      document.getElementById('testApiBtn').addEventListener('click', async function() {
+        document.getElementById('testApiSpinner').classList.remove('hidden');
+        document.getElementById('testApiText').textContent = '验证中...';
+
+        const result = await saveApiConfig();
+
+        document.getElementById('testApiSpinner').classList.add('hidden');
+        document.getElementById('testApiText').textContent = '验证并保存';
+
+        if (result.success) {
+          showNotification('API配置验证成功并已保存', 'success');
+          closeSettingsDrawer();
+        } else {
+          // 如果错误消息包含多行，显示详细错误对话框
+          if (result.message.includes('\n')) {
+            // 创建错误对话框
+            const errorDialog = document.createElement('div');
+            errorDialog.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70';
+            errorDialog.innerHTML = `
+              <div class="bg-white dark:bg-slate-800 rounded-xl shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto p-6">
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-lg font-semibold text-red-600 dark:text-red-400">验证失败</h3>
+                  <button id="closeErrorDialog" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <div class="text-gray-700 dark:text-gray-300 whitespace-pre-line">${result.message}</div>
+              </div>
+            `;
+
+            document.body.appendChild(errorDialog);
+
+            // 添加关闭按钮事件
+            document.getElementById('closeErrorDialog').addEventListener('click', function() {
+              document.body.removeChild(errorDialog);
+            });
+
+            // 点击外部区域关闭
+            errorDialog.addEventListener('click', function(e) {
+              if (e.target === errorDialog) {
+                document.body.removeChild(errorDialog);
+              }
+            });
+
+            // 显示简短通知
+            showNotification('API配置验证失败，请查看详细错误信息', 'error');
+          } else {
+            // 显示简单通知
+            showNotification('API配置验证失败: ' + result.message, 'error');
+          }
+        }
+      });
+
+      // 结果选项菜单
+      document.getElementById('showOptionsBtn').addEventListener('click', function(e) {
+        e.stopPropagation();
+        const dropdown = document.getElementById('optionsDropdown');
+        dropdown.classList.toggle('hidden');
+
+        // 点击其他地方关闭下拉菜单
+        const closeDropdown = function(event) {
+          if (!dropdown.contains(event.target) && event.target !== document.getElementById('showOptionsBtn')) {
+            dropdown.classList.add('hidden');
+            document.removeEventListener('click', closeDropdown);
+          }
+        };
+
+        if (!dropdown.classList.contains('hidden')) {
+          setTimeout(() => {
+            document.addEventListener('click', closeDropdown);
+          }, 0);
+        }
+      });
+
+      // 复制所有结果
+      document.getElementById('copyAllBtn').addEventListener('click', function() {
+        exportResults();
+      });
+
+      // 重新生成
+      document.getElementById('regenerateBtn').addEventListener('click', function() {
+        document.getElementById('generateBtn').click();
+      });
+
+      // 添加主题切换功能
+      document.getElementById('themeToggle').addEventListener('click', function() {
+        document.documentElement.classList.toggle('dark');
+      });
+
+      // 清空按钮
+      document.getElementById('clearBtn').addEventListener('click', function() {
+        document.getElementById('titleInput').value = '';
+        document.getElementById('titleInput').focus();
+      });
+
+      // 清空收藏
+      document.getElementById('clearFavoritesBtn').addEventListener('click', clearAllFavorites);
+
+      // 批量替换按钮
+      document.getElementById('batchReplaceBtn').addEventListener('click', showBatchReplaceModal);
+      document.getElementById('confirmReplaceBtn').addEventListener('click', batchReplaceText);
+      document.getElementById('cancelReplaceBtn').addEventListener('click', closeBatchReplaceModal);
+      document.getElementById('closeBatchReplaceBtn').addEventListener('click', closeBatchReplaceModal);
+
+
+
+      // 导入标题按钮
+      document.getElementById('importTitlesBtn').addEventListener('click', showImportTitlesModal);
+      document.getElementById('confirmImportBtn').addEventListener('click', function() {
+        const text = document.getElementById('importTitlesText').value;
+        importTitles(text);
+      });
+      document.getElementById('cancelImportBtn').addEventListener('click', closeImportTitlesModal);
+      document.getElementById('closeImportTitlesBtn').addEventListener('click', closeImportTitlesModal);
+
+      // 导出结果按钮
+      document.getElementById('exportResultsBtn').addEventListener('click', exportResults);
+
+      // 生成标题按钮
+      document.getElementById('generateBtn').addEventListener('click', async function() {
+        const inputText = document.getElementById('titleInput').value.trim();
+        if (!inputText) {
+          showNotification('请输入至少一个标题', 'error');
+          return;
+        }
+
+        // 分割多行输入
+        const inputTitles = inputText.split('\n')
+          .map(line => line.trim())
+          .filter(line => line.length > 0);
+
+        // 获取当前选中的提示词模板
+        const promptTemplate = currentPromptTemplate;
+        const numTitles = parseInt(document.getElementById('generationCount').value, 10);
+
+        await generateTitles(inputTitles, promptTemplate, numTitles);
+      });
+
+      // 添加一些示例标题
+      if (!document.getElementById('titleInput').value) {
+        document.getElementById('titleInput').value = "高效时间管理\n财务自由的秘密\n健康饮食计划";
+      }
+
+      // 预填充自定义提示词
+      PROMPT_TEMPLATES.custom = `你是一位专业的标题优化专家。请分析并优化以下标题，使其更具吸引力和点击率。
+
+请为每个标题提供优化方案:
+1. 标题要简洁有力，避免冗长
+2. 使用具体、生动的词语
+3. 引发好奇心和期待感
+4. 保持与原标题的核心主题一致
+5. 为每个标题提供吸引力分数（1-100分）
+
+请以JSON格式返回结果。`;
+
+      // 初始化历史记录UI
+      updateHistoryUI();
+
+      // 遮罩点击关闭模态框
+      document.querySelectorAll('.modal-overlay').forEach(overlay => {
+        overlay.addEventListener('click', function(e) {
+          if (e.target === this) {
+            // 找到最近的模态框
+            const modal = this.closest('div[id$="Modal"]');
+            if (modal.id === 'promptPreviewModal') {
+              hidePromptPreview();
+            } else if (modal.id === 'batchReplaceModal') {
+              closeBatchReplaceModal();
+            } else if (modal.id === 'importTitlesModal') {
+              closeImportTitlesModal();
+            }
+          }
+        });
+      });
+
+      // 显示API状态卡片
+      const apiStatusCard = document.getElementById('apiStatusCard');
+      apiStatusCard.classList.add('highlight-effect');
+    });
+
+    // 辅助函数：关闭设置抽屉
+    function closeSettingsDrawer() {
+      const settingsDrawer = document.getElementById('settingsDrawer');
+      const drawerContent = settingsDrawer.querySelector('div:last-child');
+      drawerContent.classList.remove('scale-100', 'opacity-100');
+      drawerContent.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        settingsDrawer.classList.add('hidden');
+      }, 300);
+    }
+
+    // 辅助函数：关闭历史抽屉
+    function closeHistoryDrawer() {
+      const historyDrawer = document.getElementById('historyDrawer');
+      const drawerContent = historyDrawer.querySelector('div:last-child');
+      drawerContent.classList.add('translate-x-full');
+      setTimeout(() => {
+        historyDrawer.classList.add('hidden');
+      }, 300);
+    }
+  </script>
+
+
+</body></html>
